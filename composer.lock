@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c491b8531eec05ba41a11d9276a5749",
+    "content-hash": "b1da79343dfab61b5fd4951008fe9cd3",
     "packages": [
+        {
+            "name": "benclerc/aruba-switchapi",
+            "version": "1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benclerc/Aruba-SwitchAPI.git",
+                "reference": "7c1db33044423613b040676434de97652f4bc2cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benclerc/Aruba-SwitchAPI/zipball/7c1db33044423613b040676434de97652f4bc2cb",
+                "reference": "7c1db33044423613b040676434de97652f4bc2cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aruba\\": "src/Aruba/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Clerc",
+                    "email": "contact@benjamin-clerc.com",
+                    "homepage": "https://benjamin-clerc.com",
+                    "role": "Creator/Developer"
+                }
+            ],
+            "description": "Library used for interacting with Aruba SwitchAPI (ArubaOS).",
+            "homepage": "https://github.com/benclerc/Aruba-SwitchAPI",
+            "support": {
+                "issues": "https://github.com/benclerc/Aruba-SwitchAPI/issues",
+                "source": "https://github.com/benclerc/Aruba-SwitchAPI/tree/1.9"
+            },
+            "time": "2021-08-02T08:30:32+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.11.0",
@@ -8133,5 +8176,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

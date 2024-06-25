@@ -1,152 +1,76 @@
-@include('layout.head')
-@include('layout.header')
-@include('layout.right-sidebar')
+@include('layout.head', ["title" => "Units"])
 @include('layout.sidebar')
+@include('layout.header')
 
-<div class="content-wrapper">
-    <div class="row">
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Daftar IP Unit</h4>
-                    <div class="table-responsive">
-                        <table class="table" id="example" class="table table-striped" >
-                            <thead>
-                                <tr>
-                                    <th>Profile</th>
-                                    <th>VatNo.</th>
-                                    <th>Created</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>53275531</td>
-                                    <td>12 May 2017</td>
-                                    <td><label class="badge badge-danger">Pending</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Messsy</td>
-                                    <td>53275532</td>
-                                    <td>15 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>John</td>
-                                    <td>53275533</td>
-                                    <td>14 May 2017</td>
-                                    <td><label class="badge badge-info">Fixed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Peter</td>
-                                    <td>53275534</td>
-                                    <td>16 May 2017</td>
-                                    <td><label class="badge badge-success">Completed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Dave</td>
-                                    <td>53275535</td>
-                                    <td>20 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>53275531</td>
-                                    <td>12 May 2017</td>
-                                    <td><label class="badge badge-danger">Pending</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Messsy</td>
-                                    <td>53275532</td>
-                                    <td>15 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>John</td>
-                                    <td>53275533</td>
-                                    <td>14 May 2017</td>
-                                    <td><label class="badge badge-info">Fixed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Peter</td>
-                                    <td>53275534</td>
-                                    <td>16 May 2017</td>
-                                    <td><label class="badge badge-success">Completed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Dave</td>
-                                    <td>53275535</td>
-                                    <td>20 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>53275531</td>
-                                    <td>12 May 2017</td>
-                                    <td><label class="badge badge-danger">Pending</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Messsy</td>
-                                    <td>53275532</td>
-                                    <td>15 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>John</td>
-                                    <td>53275533</td>
-                                    <td>14 May 2017</td>
-                                    <td><label class="badge badge-info">Fixed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Peter</td>
-                                    <td>53275534</td>
-                                    <td>16 May 2017</td>
-                                    <td><label class="badge badge-success">Completed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Dave</td>
-                                    <td>53275535</td>
-                                    <td>20 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>53275531</td>
-                                    <td>12 May 2017</td>
-                                    <td><label class="badge badge-danger">Pending</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Messsy</td>
-                                    <td>53275532</td>
-                                    <td>15 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td>John</td>
-                                    <td>53275533</td>
-                                    <td>14 May 2017</td>
-                                    <td><label class="badge badge-info">Fixed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Peter</td>
-                                    <td>53275534</td>
-                                    <td>16 May 2017</td>
-                                    <td><label class="badge badge-success">Completed</label></td>
-                                </tr>
-                                <tr>
-                                    <td>Dave</td>
-                                    <td>53275535</td>
-                                    <td>20 May 2017</td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="py-3 py-lg-4">
+        <div class="row">
+            <div class="col-lg-6">
+                <h4 class="page-title mb-0">Clients</h4>
+            </div>
+            <div class="col-lg-6">
+                <div class="d-none d-lg-block">
+                    <ol class="breadcrumb m-0 float-end">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item active">Clients</li>
+                    </ol>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <!-- end page title -->
 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Clients</h4>
+                    {{-- <p class="text-muted font-size-13 mb-4">
+                        DataTables has most features enabled by default, so all you need to do to use it with your own
+                        tables is to call the construction
+                        function:
+                        <code>$().DataTable();</code>.
+                    </p> --}}
+
+                    <table id="customTable" class="table dt-responsive nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>No Unit</th>
+                                <th>Tipe</th>
+                                <th>IP Address</th>
+                                <th>Version</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            @foreach ($unit as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->no_unit }}</td>
+                                <td>{{ $item->tipe }}</td>
+                                <td>{{ $item->ip }}</td>
+                                <td>{{ $item->versi }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+    <!-- end row-->
+
+</div>
 @include('layout.footer')
+<script>
+    $(document).ready(function() {
+        $('#customTable').DataTable({
+            "pageLength": 25, // Default page length
+        });
+    });
+</script>

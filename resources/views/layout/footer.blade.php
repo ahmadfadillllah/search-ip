@@ -1,46 +1,72 @@
-<!-- main-panel ends -->
+<!-- Footer Start -->
+
+</div>
 <footer class="footer">
-    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">APK v2.0.0</span>
-        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright IT Team © 2024. All rights
-            reserved.</span>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <script>
+                        document.write(new Date().getFullYear())
+
+                    </script> © IT Team
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-none d-md-flex gap-4 align-item-center justify-content-md-end">
+                    <p class="mb-0">Design & Develop by <a href="https://ahmadfadillllah.my.id/" target="_blank">Adhyyy</a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
-<!-- partial -->
+<!-- end Footer -->
 </div>
+
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+
 </div>
-<!-- page-body-wrapper ends -->
-</div>
-<!-- container-scroller -->
+<!-- END wrapper -->
 
-<!-- plugins:js -->
-<script src="{{ asset('dashboard/vendors') }}/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="{{ asset('dashboard/vendors') }}/chart.js/Chart.min.js"></script>
-<script src="{{ asset('dashboard/vendors') }}/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-<script src="{{ asset('dashboard/vendors') }}/progressbar.js/progressbar.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/js/vendor.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/js/app.js"></script>
 
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="{{ asset('dashboard') }}/js/off-canvas.js"></script>
-<script src="{{ asset('dashboard') }}/js/hoverable-collapse.js"></script>
-<script src="{{ asset('dashboard') }}/js/template.js"></script>
-<script src="{{ asset('dashboard') }}/js/settings.js"></script>
-<script src="{{ asset('dashboard') }}/js/todolist.js"></script>
-<script src="{{ asset('dashboard') }}/js/jquery-3.7.1.js"></script>
-<script src="{{ asset('dashboard') }}/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('dashboard') }}/js/dataTables.js"></script>
-<script src="{{ asset('dashboard') }}/js/bootstrap5.js"></script>
-<script>
-    new DataTable('#example');
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<!-- third party js ends -->
 
-</script>
-<!-- endinject -->
-<!-- Custom js for this page-->
-<script src="{{ asset('dashboard') }}/js/dashboard.js"></script>
-<script src="{{ asset('dashboard') }}/js/Chart.roundedBarCharts.js"></script>
-<!-- End custom js for this page-->
+<!-- Datatables js -->
+<script src="{{ asset('home/Admin/dist') }}/assets/js/pages/datatables.js"></script>
+
+<!-- Knob charts js -->
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/jquery-knob/jquery.knob.min.js"></script>
+
+<!-- Sparkline Js-->
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/morris.js/morris.min.js"></script>
+
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/raphael/raphael.min.js"></script>
+
+<!-- Dashboard init-->
+<script src="{{ asset('home/Admin/dist') }}/assets/js/pages/dashboard.js"></script>
+
+
+
 </body>
 
 </html>

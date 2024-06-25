@@ -1,38 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/feather/feather.css">
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/typicons/typicons.css">
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/datatables.net-bs4/dataTables.bootstrap4.css">
-    {{-- <link rel="stylesheet" href="{{ asset('dashboard/vendors') }}/js/select.dataTables.min.css"> --}}
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="{{ asset('dashboard') }}/css/vertical-layout-light/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="{{ asset('dashboard') }}/images/favicon.png" />
+    <meta charset="utf-8" />
+    <title>{{ $title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+<meta content="Myra Studio" name="author" /> --}}
 
-    {{-- <link rel="stylesheet" href="{{ asset('dashboard') }}/css/bootstrap.min.css"> --}}
-    <link rel="stylesheet" href="{{ asset('dashboard') }}/css/dataTables.bootstrap5.css">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('home/Admin/dist') }}/assets/images/favicon.png">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- third party css -->
+    <link href="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
 
-    <script>
-        Swal.fire({
-        title: "Yaay!",
-        text: "teegeg",
-        icon: "success"
-        });
-    </script>
+    <link href="{{ asset('home/Admin/dist') }}/assets/libs/morris.js/morris.css" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+    <link href="{{ asset('home/Admin/dist') }}/assets/css/style.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('home/Admin/dist') }}/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <script src="{{ asset('home/Admin/dist') }}/assets/js/config.js"></script>
 </head>
