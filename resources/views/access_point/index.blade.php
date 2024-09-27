@@ -34,14 +34,17 @@
                         <code>$().DataTable();</code>.
                     </p> --}}
 
-                    <table id="customTable" class="table dt-responsive nowrap w-100">
+                    <table id="selection-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama AP</th>
                                 <th>IP Address</th>
                                 <th>AP Type</th>
+                                <th>MAC Address</th>
+                                <th>Serial Number</th>
                                 <th>Status</th>
+                                <th>Details</th>
                             </tr>
                         </thead>
 
@@ -53,16 +56,23 @@
                                 <td>{{ $item['Name'] }}</td>
                                 <td>{{ $item['IP Address'] }}</td>
                                 <td>{{ $item['AP Type'] }}</td>
+                                <td>{{ $item['Wired MAC Address'] }}</td>
+                                <td>{{ $item['Serial #'] }}</td>
                                 <td>
                                     @if ($item['Status'] == 'Down')
-                                        <div class="btn btn-danger width-xs waves-effect waves-light btn-sm" role="alert">
+                                        {{-- <div class="btn btn-danger width-xs waves-effect waves-light btn-sm" role="alert">
                                             {{ $item['Status'] }}
-                                        </div>
+                                        </div> --}}
+                                        <div style="color: red">{{ $item['Status']  }}</div>
                                     @else
-                                        <div class="btn btn-success width-xs waves-effect waves-light btn-sm" role="alert">
+                                        {{-- <div class="btn btn-success width-xs waves-effect waves-light btn-sm" role="alert">
                                             {{ $item['Status'] }}
-                                        </div>
+                                        </div> --}}
+                                        <div style="color: green">{{ $item['Status']  }}</div>
                                     @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('access_point.details', $item['Name'] ) }}">Show</a>
                                 </td>
                             </tr>
                             @endforeach

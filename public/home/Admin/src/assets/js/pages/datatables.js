@@ -41,6 +41,7 @@ $(document).ready(function() {
         }
     });
 
+
     // Multi Selection Datatable
     $('#selection-datatable').DataTable({
         select: {

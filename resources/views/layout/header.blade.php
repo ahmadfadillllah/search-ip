@@ -103,7 +103,7 @@
                 <i class="bx bx-moon font-size-24"></i>
             </li>
 
-            <li class="dropdown">
+            {{-- <li class="dropdown">
                 <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <img src="{{ asset('home/Admin/dist') }}/assets/images/users/avatar-4.jpg" alt="user-image" class="rounded-circle">
                     <span class="ms-1 d-none d-md-inline-block">
@@ -121,29 +121,8 @@
                         <i class="fe-user"></i>
                         <span>My Account</span>
                     </a>
-
-                    {{-- <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-settings"></i>
-                        <span>Settings</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="pages-lock-screen.html" class="dropdown-item notify-item">
-                        <i class="fe-lock"></i>
-                        <span>Lock Screen</span>
-                    </a>
-
-                    <div class="dropdown-divider"></div>
-
-                    <!-- item-->
-                    <a href="pages-login.html" class="dropdown-item notify-item">
-                        <i class="fe-log-out"></i>
-                        <span>Logout</span>
-                    </a> --}}
-
                 </div>
-            </li>
+            </li> --}}
 
         </ul>
     </div>

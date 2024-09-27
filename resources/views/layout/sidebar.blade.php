@@ -57,14 +57,39 @@
                             <span class="menu-text"> Unit </span>
                         </a>
                     </li>
-
+                    <li class="menu-item">
+                        <a href="{{ route('maps.index') }}" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-map"></i></span>
+                            <span class="menu-text"> Maps Tower</span>
+                        </a>
+                    </li>
                     <li class="menu-title">Extra Pages</li>
 
                     <li class="menu-item">
-                        <a href="#" class="menu-link waves-effect waves-light">
+                        <a href="#menuMaps" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-layout"></i></span>
                             <span class="menu-text"> Settings </span>
+                            <span class="menu-arrow"></span>
                         </a>
+                        <div class="collapse" id="menuMaps">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="{{ route('marker.index') }}" class="menu-link">
+                                        <span class="menu-text">Marker Tower</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ route('connection.index') }}" class="menu-link">
+                                        <span class="menu-text">Connection Tower</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ route('unit.show') }}" class="menu-link">
+                                        <span class="menu-text">IP Unit</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>

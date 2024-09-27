@@ -34,7 +34,7 @@
                         <code>$().DataTable();</code>.
                     </p> --}}
 
-                    <table id="customTable" class="table dt-responsive nowrap w-100">
+                    <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
                                 <th>No</th>

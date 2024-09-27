@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6">
                 <div class="d-none d-md-flex gap-4 align-item-center justify-content-md-end">
-                    <p class="mb-0">Design & Develop by <a href="https://ahmadfadillllah.my.id/" target="_blank">Adhyyy</a>
+                    <p class="mb-0">Design & Develop by <a href="https://ahmadfadillah.my.id/" target="_blank">Adhyyy</a>
                     </p>
                 </div>
             </div>
@@ -33,6 +33,13 @@
 
 <script src="{{ asset('home/Admin/dist') }}/assets/js/vendor.min.js"></script>
 <script src="{{ asset('home/Admin/dist') }}/assets/js/app.js"></script>
+
+<!-- Loading buttons js -->
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/ladda/spin.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/ladda/ladda.min.js"></script>
+
+<!-- Buttons Demo js-->
+<script src="{{ asset('home/Admin/dist') }}/assets/js/pages/loading-btn.js"></script>
 
 <script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('home/Admin/dist') }}/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>

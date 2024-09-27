@@ -34,7 +34,7 @@
                         <code>$().DataTable();</code>.
                     </p> --}}
 
-                    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                    <table id="customTable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -72,3 +72,10 @@
 
 </div>
 @include('layout.footer')
+<script>
+    $(document).ready(function() {
+        $('#customTable').DataTable({
+            "pageLength": 50, // Default page length
+        });
+    });
+</script>

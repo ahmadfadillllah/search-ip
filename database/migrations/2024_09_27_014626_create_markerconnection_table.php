@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function (Blueprint $table) {
+        Schema::create('markerconnection', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis');
-            $table->string('no_unit');
-            $table->string('tipe');
-            $table->string('ip');
-            $table->string('versi');
+            $table->foreignId('from_marker_id')->constrained('marker')->cascadeOnDelete();
+            $table->foreignId('to_marker_id')->constrained('marker')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit');
+        Schema::dropIfExists('markerconnection');
     }
 };

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function (Blueprint $table) {
+        Schema::create('marker', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis');
-            $table->string('no_unit');
-            $table->string('tipe');
-            $table->string('ip');
-            $table->string('versi');
+            $table->string('name');
+            $table->string('lat');
+            $table->string('long');
+            $table->string('icon');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit');
+        Schema::dropIfExists('marker');
     }
 };
