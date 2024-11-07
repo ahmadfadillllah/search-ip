@@ -6,6 +6,7 @@ use App\Models\Unit;
 use Illuminate\Http\Request;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -49,7 +50,16 @@ class ClientController extends Controller
         $body = $response->getBody()->getContents();
         $data = json_decode($body, true);
 
-        $ip_client = Unit::select('no_unit', 'ip')->get();
+        // $ip_client = Unit::select('no_unit', 'ip')->get();
+
+        $ip_client = DB::connection('sqlsrv')
+                    ->table('FLT_VEHICLE')
+                    ->select([
+                        'VHC_ID as no_unit',
+                        'NET_IPADDRESS as ip',
+                    ])
+                    ->where('VHC_ACTIVE', true)
+                    ->get();
 
         foreach ($data['Users'] as &$item) {
             if ($item['Name'] === null) {
@@ -114,7 +124,14 @@ class ClientController extends Controller
         $body = $response->getBody()->getContents();
         $data = json_decode($body, true);
 
-        $ip_client = Unit::select('no_unit', 'ip')->get();
+        $ip_client = DB::connection('sqlsrv')
+                    ->table('FLT_VEHICLE')
+                    ->select([
+                        'VHC_ID as no_unit',
+                        'NET_IPADDRESS as ip',
+                    ])
+                    ->where('VHC_ACTIVE', true)
+                    ->get();
 
         foreach ($data['Users'] as &$item) {
             if ($item['Name'] === null) {
@@ -181,7 +198,14 @@ class ClientController extends Controller
         $body = $response->getBody()->getContents();
         $data = json_decode($body, true);
 
-        $ip_client = Unit::select('no_unit', 'ip')->get();
+        $ip_client = DB::connection('sqlsrv')
+                    ->table('FLT_VEHICLE')
+                    ->select([
+                        'VHC_ID as no_unit',
+                        'NET_IPADDRESS as ip',
+                    ])
+                    ->where('VHC_ACTIVE', true)
+                    ->get();
 
         foreach ($data['Users'] as &$item) {
             if ($item['Name'] === null) {

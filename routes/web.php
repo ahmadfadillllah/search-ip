@@ -6,6 +6,7 @@ use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\MarkerController;
+use App\Http\Controllers\RitationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TopologyController;
 use App\Http\Controllers\UnitController;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('unit.index');
+    return redirect()->route('dashboard.index');
 });
 
 Route::get('/home/index', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -39,6 +40,9 @@ Route::get('/units/index', [UnitController::class, 'index'])->name('unit.index')
 Route::get('/units/show', [UnitController::class, 'show'])->name('unit.show');
 
 Route::get('/topology/index', [TopologyController::class, 'index'])->name('topology.index');
+
+Route::get('/ritation/index', [RitationController::class, 'index'])->name('ritation.index');
+Route::get('/ritation/index/time', [RitationController::class, 'time'])->name('ritation.time');
 
 Route::get('/maps/index', [MapsController::class, 'index'])->name('maps.index');
 

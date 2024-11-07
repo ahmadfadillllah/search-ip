@@ -50,10 +50,10 @@
                             @foreach ($unit as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->no_unit }}</td>
-                                <td>{{ $item->tipe }}</td>
-                                <td>{{ $item->ip }}</td>
-                                <td>{{ $item->versi }}</td>
+                                <td>{{ $item->VHC_ID }}</td>
+                                <td>{{ $item->EQU_TYPEID }}</td>
+                                <td>{{ $item->NET_IPADDRESS }}</td>
+                                <td>{{ $item->APP_VERSION }}</td>
                             </tr>
                         @endforeach
                         </tbody>

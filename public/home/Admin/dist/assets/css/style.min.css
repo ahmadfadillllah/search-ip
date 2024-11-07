@@ -42,9 +42,9 @@
     --bs-menu-item-active-color: #fff
 }
 
-[data-menu-color=brand] {
-    --bs-menu-bg: rgb(12 74 110);
-    --bs-menu-item-color: #cedce4;
+[data-menu-color=light] {
+    --bs-menu-bg: #ffffff;
+    --bs-menu-item-color: #0a0a0a;
     --bs-menu-item-hover-color: #ffffff;
     --bs-menu-item-active-color: #ffffff;
     --bs-menu-item-active-bg: rgba(255, 255, 255, 0.1)
@@ -76,6 +76,7 @@
  */
 :root,
 [data-bs-theme=light] {
+    /* --bs-body-color: #adb5bd; */
     --bs-blue: #346ee0;
     --bs-indigo: #3F51B5;
     --bs-purple: #844aff;
@@ -148,7 +149,7 @@
     --bs-font-sans-serif: "Nunito", cursive;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-    --bs-body-font-family: var(--bs-font-sans-serif);
+    /* --bs-body-font-family: var(--bs-font-sans-serif); */
     --bs-body-font-size: 0.875rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;

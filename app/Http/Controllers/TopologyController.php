@@ -14,16 +14,22 @@ class TopologyController extends Controller
         $client = new \GuzzleHttp\Client();
         $cookieJar = new \GuzzleHttp\Cookie\CookieJar();
 
-        $data_login = $client->post('https://10.10.2.12:4343/v1/api/login', [
-            'form_params' => [
-                'username' => env('USERNAME_ARUBA'),
-                'password' => env('PASSWORD_ARUBA'),
-                'action' => 'login'
-            ],
-            'verify' => false,
-            'cookies' => $cookieJar
-        ]
-        );
+        $data_login = [];
+
+        try {
+            $data_login = $client->post('https://10.10.2.12:4343/v1/api/login', [
+                'form_params' => [
+                    'username' => env('USERNAME_ARUBA'),
+                    'password' => env('PASSWORD_ARUBA'),
+                    'action' => 'login'
+                ],
+                'verify' => false,
+                'cookies' => $cookieJar
+            ]
+            );
+        } catch (\Throwable $th) {
+            return redirect()->route('dashboard.index')->with('info', 'Terjadi kesalahan...');
+        }
 
 
         $headerSetCookies = $data_login->getHeader('Set-Cookie');
