@@ -59,7 +59,7 @@
                             <span class="menu-text"> Maps Tower</span>
                         </a>
                     </li>
-                    <li class="menu-title">Extra Pages</li>
+                    {{-- <li class="menu-title">Extra Pages</li>
 
                     <li class="menu-item">
                         <a href="#menuMaps" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
@@ -86,7 +86,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
