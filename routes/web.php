@@ -6,11 +6,14 @@ use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\MarkerController;
+use App\Http\Controllers\PeriodicRealtimeController;
+use App\Http\Controllers\RealtimeRitationController;
 use App\Http\Controllers\RitationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TopologyController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Process\Process;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +53,21 @@ Route::get('/marker/index', [MarkerController::class, 'index'])->name('marker.in
 
 Route::get('/connection/index', [ConnectionController::class, 'index'])->name('connection.index');
 
+Route::get('/periodic-realtime/index', [PeriodicRealtimeController::class, 'index'])->name('periodicrealtime.index');
+
+Route::get('/realtime-ritation/index', [RealtimeRitationController::class, 'index'])->name('realtimeritation.index');
+Route::get('/realtime-ritation/notrealtime/{date}/{time}', [RealtimeRitationController::class, 'notrealtime'])->name('realtimeritation.notrealtime');
+
 Route::get('/settings/index', [SettingsController::class, 'index'])->name('settings.index');
 Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+
+// Route::get('/ping-server/{ip}', function ($ipname) {
+//     $ip = $ipname;
+//     $process = Process::fromShellCommandline("ping $ip");
+//     $process->run();
+
+//     return response()->json([
+//         'output' => $process->getOutput(),
+//         'error' => $process->getErrorOutput(),
+//     ]);
+// })->name('ping');

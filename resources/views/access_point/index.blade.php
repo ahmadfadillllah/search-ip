@@ -45,6 +45,7 @@
                                 <th>Serial Number</th>
                                 <th>Status</th>
                                 <th>Details</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
 
@@ -74,6 +75,9 @@
                                 <td>
                                     <a href="{{ route('access_point.details', $item['Name'] ) }}">Show</a>
                                 </td>
+                                {{-- <td>
+                                    <a href="{{ route('ping', $item['IP Address'] ) }}">Ping</a>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
