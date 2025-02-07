@@ -54,6 +54,7 @@ Route::get('/marker/index', [MarkerController::class, 'index'])->name('marker.in
 Route::get('/connection/index', [ConnectionController::class, 'index'])->name('connection.index');
 
 Route::get('/periodic-realtime/index', [PeriodicRealtimeController::class, 'index'])->name('periodicrealtime.index');
+Route::get('/periodic-realtime/index/notRealtime/{startDate}/{endDate}/{vhcId}', [PeriodicRealtimeController::class, 'notRealtime'])->name('periodicrealtime.notRealtime');
 
 Route::get('/realtime-ritation/index', [RealtimeRitationController::class, 'index'])->name('realtimeritation.index');
 Route::get('/realtime-ritation/notrealtime/{date}/{time}', [RealtimeRitationController::class, 'notrealtime'])->name('realtimeritation.notrealtime');

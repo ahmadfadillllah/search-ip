@@ -34,9 +34,10 @@
             <div class="card">
                 <div class="card-body">
 
-                    <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                    <table id="selection-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
+                                <th rowspan="2">No</th>
                                 <th rowspan="2">Code</th>
                                 <th rowspan="2">Date</th>
                                 <th rowspan="2">Range Hour</th>
@@ -65,6 +66,7 @@
                                 $totalRateFMS += $dt->N_RATEFMS;
                             @endphp
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $dt->CODE }}</td>
                                     <td>{{ $dt->DATE }}</td>
                                     <td>{{ $dt->RANGEJAM }}</td>
@@ -73,15 +75,17 @@
                                     <td>{{ $dt->N_RIT_NOT_REALTIME }}</td>
                                     <td>{{ number_format($dt->PERCENTAGE_REALTIME * 100, 1) }}%</td>
                                     <td><a href="{{ route('realtimeritation.notrealtime', [$dt->DATE, $dt->RANGEJAM]) }}" class="btn btn-info btn-xs waves-effect waves-light">Show Not Realtime</a></td>
+                                    {{-- <td><a href="{{ route('realtimeritation.notrealtime', [$dt->DATE, $dt->RANGEJAM]) }}">Show Not Realtime</a></td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
-                            @php
-                                $totalPercentageRealtime = $totalRitRealtime/$totalRateFMS;
-                            @endphp
+                        @php
+                            // Menangani Division by Zero
+                            $totalPercentageRealtime = ($totalRateFMS != 0) ? ($totalRitRealtime / $totalRateFMS) : 0;
+                        @endphp
                         <tfoot>
-                            <tr>
-                                <td colspan="3"><strong>Total</strong></td>
+                            <tr style="background-color:#ffcbc2">
+                                <td colspan="4"><strong>Total</strong></td>
                                 <td>{{ $totalRateFMS }}</td>
                                 <td>{{ $totalRitRealtime }}</td>
                                 <td>{{ $totalRitNotRealtime }}</td>
@@ -125,7 +129,7 @@
     document.getElementById('date').value = dateDefault;
 </script>
 
-
+{{--
 <script>
     $(document).ready(function() {
         $('#customTable').DataTable({
@@ -136,4 +140,4 @@
         ]
         });
     });
-</script>
+</script> --}}

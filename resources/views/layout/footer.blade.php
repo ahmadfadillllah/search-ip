@@ -6,10 +6,11 @@
         <div class="row">
             <div class="col-md-6">
                 <div>
-                    <script>
+                    {{-- <script>
                         document.write(new Date().getFullYear())
 
-                    </script> © IT Team
+                    </script> --}}
+                    2024 © IT Team
                 </div>
             </div>
             <div class="col-md-6">

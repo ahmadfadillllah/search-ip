@@ -86,6 +86,7 @@ class PeriodicRealtimeController extends Controller
 
         $results = DB::select($query, [$startDate, $endDate]);
 
+
         $formattedData = [];
 
         foreach ($results as $row) {
@@ -149,5 +150,37 @@ class PeriodicRealtimeController extends Controller
             return redirect()->back()->with('info', 'Maaf, data periodec tidak ditemukan');
         }
         return view('periodic_realtime.index', compact('displayData'));
+    }
+
+    public function notRealtime($startDate, $endDate, $vhcId)
+    {
+        // dd($startDate);
+
+        $query = "
+            SELECT
+                OPR_REPORTTIME,
+                SYS_CREATEDAT,
+                DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT) / 60.0 AS LATENCY,
+                VHC_ID,
+                OPR_SHIFTDATE,
+                LOD_LOADERID as LOADER,
+                LOD_LOC_NAME as LOC_LOADER,
+                LOC_NAME as LOC_DUMPING
+            FROM
+                focus.dbo.PRD_RITATION WITH (NOLOCK)
+            WHERE
+                OPR_SHIFTDATE BETWEEN ? AND ?
+                AND VHC_ID = '$vhcId'
+                AND SYS_UPDATEDBY = 'SYSTEM'
+                AND SYS_CREATEDBY = 'SYSTEM'
+                AND DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT) / 60.0 > 5  -- Filter untuk LATENCY > 5 menit
+
+        ";
+
+        $data = DB::select($query, [$startDate, $endDate]);
+
+        $data = collect($data);
+
+        return view('periodic_realtime.show', compact('data'));
     }
 }
