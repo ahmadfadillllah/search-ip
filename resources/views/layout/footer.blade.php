@@ -62,6 +62,10 @@
 
 <!-- Knob charts js -->
 <script src="{{ asset('home/Admin/dist') }}/assets/libs/jquery-knob/jquery.knob.min.js"></script>
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/chart.js/Chart.bundle.min.js"></script>
+
+        <!-- Demo js -->
+<script src="{{ asset('home/Admin/dist') }}/assets/js/pages/chartjs.js"></script>
 
 <!-- Sparkline Js-->
 <script src="{{ asset('home/Admin/dist') }}/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>

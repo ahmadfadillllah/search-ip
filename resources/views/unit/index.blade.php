@@ -8,13 +8,13 @@
     <div class="py-3 py-lg-4">
         <div class="row">
             <div class="col-lg-6">
-                <h4 class="page-title mb-0">Clients</h4>
+                <h4 class="page-title mb-0">Unit</h4>
             </div>
             <div class="col-lg-6">
                 <div class="d-none d-lg-block">
                     <ol class="breadcrumb m-0 float-end">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Clients</li>
+                        <li class="breadcrumb-item active">Unit</li>
                     </ol>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Clients</h4>
+                    <h4 class="header-title">Unit</h4>
                     {{-- <p class="text-muted font-size-13 mb-4">
                         DataTables has most features enabled by default, so all you need to do to use it with your own
                         tables is to call the construction

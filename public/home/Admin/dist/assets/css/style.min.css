@@ -19,7 +19,7 @@
 [data-bs-theme=dark] {
     --bs-light: #424e5a;
     --bs-light-rgb: 66, 78, 90;
-    --bs-dark: #f3f7f9;
+    --bs-dark: #031c36;
     --bs-dark-rgb: 243, 247, 249;
     --bs-box-shadow: 0px 0px 35px 0px rgba(66, 72, 80, 0.15);
     --bs-box-shadow-sm: 0 0.75rem 6rem rgba(56, 65, 74, 0.03);
@@ -43,15 +43,15 @@
 }
 
 [data-menu-color=light] {
-    --bs-menu-bg: #ffffff;
+    --bs-menu-bg: #031c36;
     --bs-menu-item-color: #0a0a0a;
-    --bs-menu-item-hover-color: #ffffff;
-    --bs-menu-item-active-color: #ffffff;
+    --bs-menu-item-hover-color: #031c36;
+    --bs-menu-item-active-color: #031c36;
     --bs-menu-item-active-bg: rgba(255, 255, 255, 0.1)
 }
 
 [data-topbar-color=light] {
-    --bs-topbar-bg: #ffffff;
+    --bs-topbar-bg: #031c36;
     --bs-topbar-item-color: #6c757d;
     --bs-topbar-item-hover-color: #346ee0
 }
@@ -155,7 +155,7 @@
     --bs-body-line-height: 1.5;
     --bs-body-color: #000000;
     --bs-body-color-rgb: 116, 122, 128;
-    --bs-body-bg: #ffffff;
+    --bs-body-bg: #fafafa;
     --bs-body-bg-rgb: 255, 255, 255;
     --bs-emphasis-color: #000;
     --bs-emphasis-color-rgb: 0, 0, 0;

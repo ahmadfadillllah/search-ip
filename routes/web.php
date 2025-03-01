@@ -55,6 +55,8 @@ Route::get('/connection/index', [ConnectionController::class, 'index'])->name('c
 
 Route::get('/periodic-realtime/index', [PeriodicRealtimeController::class, 'index'])->name('periodicrealtime.index');
 Route::get('/periodic-realtime/index/notRealtime/{startDate}/{endDate}/{vhcId}', [PeriodicRealtimeController::class, 'notRealtime'])->name('periodicrealtime.notRealtime');
+Route::get('/periodic-realtime/allMaps/{startDate}/{endDate}', [PeriodicRealtimeController::class, 'allMaps'])->name('periodicrealtime.allMaps');
+Route::get('/periodic-realtime/mapsUnit/{startDate}/{endDate}/{vhcId}', [PeriodicRealtimeController::class, 'mapsUnit'])->name('periodicrealtime.mapsUnit');
 
 Route::get('/realtime-ritation/index', [RealtimeRitationController::class, 'index'])->name('realtimeritation.index');
 Route::get('/realtime-ritation/notrealtime/{date}/{time}', [RealtimeRitationController::class, 'notrealtime'])->name('realtimeritation.notrealtime');

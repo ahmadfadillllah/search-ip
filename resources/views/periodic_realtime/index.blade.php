@@ -13,8 +13,10 @@
             <div class="col-lg-6">
                 <div class="d-none d-lg-block">
                     <ol class="breadcrumb m-0 float-end">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Periodic Realtime</li>
+                        <a href="{{ route('periodicrealtime.allMaps', ['startDate' => $startDate, 'endDate' => $endDate ]) }}" target="_blank" class="ladda-button btn btn-info">
+                            All Maps
+                        </a>
+
                     </ol>
                 </div>
             </div>
@@ -87,7 +89,10 @@
                                         @endphp
                                        <a href="{{ route('periodicrealtime.notRealtime', ['startDate' => $startDate, 'endDate' => $endDate,'vhcId' => $vhcId ]) }}" class="button btn btn-dark">
                                         Show Not Realtime
-                                    </a>
+                                        </a>
+                                        <a href="{{ route('periodicrealtime.mapsUnit', ['startDate' => $startDate, 'endDate' => $endDate,'vhcId' => $vhcId ]) }}" target="_blank" class="ladda-button btn btn-info" >
+                                            Maps
+                                        </a>
                                     </td>
                                     @else
                                     <td>-</td>

@@ -63,12 +63,12 @@
                         </a>
                     </li>
                     <li class="menu-title">Ritation</li>
-                    <li class="menu-item">
+                    {{-- <li class="menu-item">
                         <a href="{{ route('ritation.index') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bxs-eraser"></i></span>
                             <span class="menu-text"> Ritation Not Realtime</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="menu-item">
                         <a href="{{ route('periodicrealtime.index') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-cookie"></i></span>
