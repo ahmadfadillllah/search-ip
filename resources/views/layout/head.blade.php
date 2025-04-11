@@ -27,7 +27,7 @@
     <link href="{{ asset('home/Admin/dist') }}/assets/css/style.min.css" rel="stylesheet" type="text/css">
     <link href="{{ asset('home/Admin/dist') }}/assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <script src="{{ asset('home/Admin/dist') }}/assets/js/config.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     {{-- Leaflet.js --}}

@@ -33,6 +33,9 @@ Route::get('/', function () {
 Route::get('/home/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/access_point/index', [AccessPointController::class, 'index'])->name('access_point.index');
+Route::post('/access_point/reboot', [AccessPointController::class, 'reboot'])->name('access_point.reboot');
+Route::post('/access_point/ping', [AccessPointController::class, 'ping'])->name('access_point.ping');
+
 
 Route::get('/access_point/details/{name}', [AccessPointController::class, 'details'])->name('access_point.details');
 

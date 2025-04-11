@@ -14,7 +14,7 @@ class DashboardController extends Controller
     //
     public function index()
     {
-        $unit = DB::connection('sqlsrv')
+        $unit = DB::connection('focus')
                     ->table('FLT_VEHICLE')
                     ->select([
                         'VHC_ID',
@@ -25,9 +25,9 @@ class DashboardController extends Controller
                     ->where('VHC_ACTIVE', true)
                     ->get();
 
-        $statusUnit = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.DBO.RPT_DASHBOARD_RESUME_TOTAL_UNIT');
+
+        $statusUnit = DB::connection('focus')->select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.DBO.RPT_DASHBOARD_RESUME_TOTAL_UNIT');
         $statusUnit = collect($statusUnit);
-        // dd($statusUnit);
 
 
         $client = new \GuzzleHttp\Client();
@@ -87,7 +87,7 @@ class DashboardController extends Controller
         $now = new DateTime();
         $date = $now->format('Y-m-d');
 
-        $ritasi = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?', [$date]);
+        $ritasi = DB::connection('focus')->select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?', [$date]);
         $ritasi = collect($ritasi);
 
         return view('dashboard.index', compact('unit', 'type_aruba', 'device', 'statusUnit', 'aruba', 'ritasi'));

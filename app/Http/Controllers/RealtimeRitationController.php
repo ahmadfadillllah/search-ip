@@ -21,7 +21,7 @@ class RealtimeRitationController extends Controller
             $date = new DateTime("$request->date");
         }
 
-        $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?', [$date]);
+        $data = DB::connection('focus')->select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?', [$date]);
         $data = collect($data);
         // dd($data);
         return view('realtime-ritation.index', compact('data'));
@@ -41,7 +41,7 @@ class RealtimeRitationController extends Controller
         $dateStart = Carbon::parse($date->toDateString() . ' ' . $start->format('H:i'))->format('Y-m-d H:i');
         $dateEnd = Carbon::parse($date->toDateString() . ' ' . $end->format('H:i'))->format('Y-m-d H:i');
         try {
-            $data = DB::table('FOCUS.DBO.PRD_RITATION')
+            $data = DB::connection('focus')->table('FOCUS.DBO.PRD_RITATION')
                 ->select(
                     'VHC_ID',
                     'OPR_REPORTTIME',

@@ -20,6 +20,7 @@
             </div>
         </div>
     </div>
+
     <!-- end page title -->
 
     <div class="row">
@@ -61,19 +62,17 @@
                                 <td>{{ $item['Serial #'] }}</td>
                                 <td>
                                     @if ($item['Status'] == 'Down')
-                                        {{-- <div class="btn btn-danger width-xs waves-effect waves-light btn-sm" role="alert">
-                                            {{ $item['Status'] }}
-                                        </div> --}}
                                         <div style="color: red">{{ $item['Status']  }}</div>
                                     @else
-                                        {{-- <div class="btn btn-success width-xs waves-effect waves-light btn-sm" role="alert">
-                                            {{ $item['Status'] }}
-                                        </div> --}}
                                         <div style="color: green">{{ $item['Status']  }}</div>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('access_point.details', $item['Name'] ) }}">Show</a>
+                                    <a class="btn btn-info btn-xs" href="{{ route('access_point.details', $item['Name'] ) }}">Show</a>
+                                    {{-- @if ($item['Status'] == 'Down') --}}
+                                    <button type="button" class="btn btn-warning btn-xs reboot-btn" data-ip="{{ $item['Name'] }}|{{ $item['IP Address'] }}|{{ $item['Status']  }}">Reboot</button>
+                                    {{-- @endif --}}
+
                                 </td>
                                 {{-- <td>
                                     <a href="{{ route('ping', $item['IP Address'] ) }}">Ping</a>
@@ -96,5 +95,65 @@
         $('#customTable').DataTable({
             "pageLength": 50, // Default page length
         });
+    });
+</script>
+<script>
+    // Event listener untuk tombol reboot
+    $('.reboot-btn').click(function() {
+        var ip = $(this).data('ip');
+        var parts = ip.split('|');
+
+        var name = parts[0];
+        var ipAddress = parts[1];
+        var statusAP = parts[2];
+
+        Swal.fire({
+            title: "Harap pastikan Access Point bisa diping/reply!",
+            text: "AP yang akan direboot: " + name,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, reboot sekarang!"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            // Tampilkan loading / processing
+            Swal.fire({
+                title: 'Memproses...',
+                text: 'Sedang mengirim perintah reboot ke Access Point.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Kirim request POST ke API Laravel untuk reboot
+            $.ajax({
+                url: '{{ route("access_point.reboot") }}',
+                type: 'POST',
+                data: {
+                    ip: ipAddress,
+                    apName: name,
+                    statusAP: statusAP,
+                    _token: '{{ csrf_token() }}' // CSRF token
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: response.message,
+                        icon: 'success'
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: 'Terjadi kesalahan saat memproses permintaan.',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+    });
+
     });
 </script>

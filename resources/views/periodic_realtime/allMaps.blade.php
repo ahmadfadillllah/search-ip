@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <title>All Not Realtime</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+<link href="{{ asset('mapbox-gl-js/v3.10.0') }}/mapbox-gl.css" rel="stylesheet">
+<script src="{{ asset('mapbox-gl-js/v3.10.0') }}/mapbox-gl.js"></script>
 <style>
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -26,7 +26,7 @@ body { margin: 0; padding: 0; }
         { lat: -1.8487747, lng: 115.8885949, name: "WORKSHOP TOWER", popupContent: "<b>WORKSHOP TOWER</b><br>Koordinat: -1.8487747, 115.8885949" }, // 1
         { lat: -1.8470510292009323, lng: 115.88880068702747, name: "UT TOWER", popupContent: "<b>UT TOWER</b><br>Koordinat: -1.8470510292009323, 115.88880068702747" }, // 2
         { lat: -1.8523968977442502, lng: 115.87728734924201, name: "TOWER 01", popupContent: "<b>TOWER 01</b><br>Koordinat: -1.8523968977442502, 115.87728734924201" }, // 3
-        { lat: -1.8504071815598577, lng: 115.85916120908958, name: "TOWER 02", popupContent: "<b>TOWER 02</b><br>Koordinat: -1.8504071815598577, 115.85916120908958" }, // 4
+        { lat: -1.851937, lng: 115.857533, name: "TOWER 02", popupContent: "<b>TOWER 02</b><br>Koordinat: -1.851937, 115.857533" }, // 4
         { lat: -1.8571332698140215, lng: 115.87187862808199, name: "TOWER 03", popupContent: "<b>TOWER 03</b><br>Koordinat: -1.8571332698140215, 115.87187862808199" }, // 5
         { lat: -1.8498514659030518, lng: 115.87066309013716, name: "TOWER 04", popupContent: "<b>TOWER 04</b><br>Koordinat: -1.8498514659030518, 115.87066309013716" }, // 6
         { lat: -1.8492322977684816, lng: 115.87139624909676, name: "TOWER 05", popupContent: "<b>TOWER 05</b><br>Koordinat: -1.8492322977684816, 115.87139624909676" }, // 7
@@ -40,15 +40,15 @@ body { margin: 0; padding: 0; }
         { lat: -1.853336332866685, lng: 115.87770897314037, name: "TOWER 13", popupContent: "<b>TOWER 13</b><br>Koordinat: -1.853336332866685, 115.87770897314037" }, // 15
         { lat: -1.8557668042728035, lng: 115.89791082577015, name: "TOWER 14", popupContent: "<b>TOWER 14</b><br>Koordinat: -1.8557668042728035, 115.89791082577015" }, // 16
         { lat: -1.8586360278433387, lng: 115.90605094485427, name: "TOWER 15", popupContent: "<b>TOWER 15</b><br>Koordinat: -1.8586360278433387, 115.90605094485427" }, // 17
-        { lat: -1.8444443012947742, lng: 115.86233102469141, name: "TOWER 16", popupContent: "<b>TOWER 16</b><br>Koordinat: -1.8444443012947742, 115.86233102469141" }, // 18
+        { lat: -1.845900, lng: 115.865301, name: "TOWER 16", popupContent: "<b>TOWER 16</b><br>Koordinat: -1.845900, 115.865301" }, // 18
         { lat: -1.856342643490943, lng: 115.87639202969262, name: "TOWER 17", popupContent: "<b>TOWER 17</b><br>Koordinat: -1.856342643490943, 115.87639202969262" }, // 19
-        { lat: -1.8470264525881177, lng: 115.85965266115326, name: "TOWER 18", popupContent: "<b>TOWER 18</b><br>Koordinat: -1.8470264525881177, 115.85965266115326" }, // 20
+        { lat: -1.846080, lng: 115.859525, name: "TOWER 18", popupContent: "<b>TOWER 18</b><br>Koordinat: -1.846080, 115.859525" }, // 20
         { lat: -1.846737577686091, lng: 115.86680603168061, name: "TOWER 19", popupContent: "<b>TOWER 19</b><br>Koordinat: -1.846737577686091, 115.86680603168061" }, // 21
         { lat: -1.8582203194904288, lng: 115.8770182506771, name: "TOWER 20", popupContent: "<b>TOWER 20</b><br>Koordinat: -1.8582203194904288, 115.8770182506771" }, // 22
         { lat: -1.8522984116070589, lng: 115.8639880372815, name: "TOWER 21", popupContent: "<b>TOWER 21</b><br>Koordinat: -1.8522984116070589, 115.8639880372815" }, // 23
         { lat: -1.8491689401391072, lng: 115.87923410955386, name: "TOWER 22", popupContent: "<b>TOWER 22</b><br>Koordinat: -1.8491689401391072, 115.87923410955386" }, // 24
         { lat: -1.8507096037049047, lng: 115.87253836204926, name: "TOWER 23", popupContent: "<b>TOWER 23</b><br>Koordinat: -1.8507096037049047, 115.87253836204926" }, // 25
-        { lat: -1.8494337417738702, lng: 115.86432523300955, name: "TOWER 24", popupContent: "<b>TOWER 24</b><br>Koordinat: -1.8494337417738702, 115.86432523300955" }, // 26
+        { lat: -1.843409, lng: 115.871140, name: "TOWER 24", popupContent: "<b>TOWER 24</b><br>Koordinat: -1.843409, 115.871140" }, // 26
         { lat: -1.8503514866536446, lng: 115.88760047083625, name: "TOWER VIEW POINT", popupContent: "<b>TOWER VIEW POINT</b><br>Koordinat: -1.8503514866536446, 115.88760047083625" }, // 27
         { lat: -1.853250379035633, lng: 115.90498845940964, name: "TOWER RUKUN", popupContent: "<b>TOWER RUKUN</b><br>Koordinat: -1.853250379035633, 115.90498845940964" } // 28
     ];
@@ -101,7 +101,7 @@ body { margin: 0; padding: 0; }
 
             new mapboxgl.Marker({
                 color: markerColor,
-                draggable: true
+                draggable: false
             })
             .setLngLat([coord.lng, coord.lat])
             .addTo(map);

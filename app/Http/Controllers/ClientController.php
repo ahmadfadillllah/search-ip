@@ -52,7 +52,7 @@ class ClientController extends Controller
 
         // $ip_client = Unit::select('no_unit', 'ip')->get();
 
-        $ip_client = DB::connection('sqlsrv')
+        $ip_client = DB::connection('focus')
                     ->table('FLT_VEHICLE')
                     ->select([
                         'VHC_ID as no_unit',
@@ -198,7 +198,7 @@ class ClientController extends Controller
         $body = $response->getBody()->getContents();
         $data = json_decode($body, true);
 
-        $ip_client = DB::connection('sqlsrv')
+        $ip_client = DB::connection('focus')
                     ->table('FLT_VEHICLE')
                     ->select([
                         'VHC_ID as no_unit',

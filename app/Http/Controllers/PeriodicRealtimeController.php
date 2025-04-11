@@ -84,7 +84,7 @@ class PeriodicRealtimeController extends Controller
             ORDER BY VHC_ID, OPR_SHIFTDATE
         ";
 
-        $results = DB::select($query, [$startDate, $endDate]);
+        $results = DB::connection('focus')->select($query, [$startDate, $endDate]);
 
 
         $formattedData = [];
@@ -176,7 +176,7 @@ class PeriodicRealtimeController extends Controller
 
         ";
 
-        $data = DB::select($query, [$startDate, $endDate]);
+        $data = DB::connection('focus')->select($query, [$startDate, $endDate]);
 
         $data = collect($data);
 
@@ -207,7 +207,7 @@ class PeriodicRealtimeController extends Controller
                 AND DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT) / 60.0 > 5  -- Filter untuk LATENCY > 5 menit
         ";
 
-        $data = DB::select($query, [$startDate, $endDate]);
+        $data = DB::connection('focus')->select($query, [$startDate, $endDate]);
         $data = collect($data);
         $data = $data->map(function ($item) {
             return [
@@ -238,7 +238,7 @@ class PeriodicRealtimeController extends Controller
             B.LAYERNAME, A.MAPOBJECTID
         ";
 
-        $dataMaps = DB::select($queryMaps, [$startDate, $endDate]);
+        $dataMaps = DB::connection('focus')->select($queryMaps, [$startDate, $endDate]);
         $dataMaps = collect($dataMaps)->map(function($item) {
             if (isset($item->GEOPOINTS)) {
                 $geoPoints = $item->GEOPOINTS;
@@ -271,7 +271,7 @@ class PeriodicRealtimeController extends Controller
             B.LAYERNAME, A.MAPOBJECTID
         ";
 
-        $dataMapsDisposal = DB::select($queryMapsDisposal, [$startDate, $endDate]);
+        $dataMapsDisposal = DB::connection('focus')->select($queryMapsDisposal, [$startDate, $endDate]);
         $dataMapsDisposal = collect($dataMapsDisposal);
 
         $queryMapsFront = "
@@ -295,7 +295,7 @@ class PeriodicRealtimeController extends Controller
             B.LAYERNAME, A.MAPOBJECTID
         ";
 
-        $dataMapsFront = DB::select($queryMapsFront, [$startDate, $endDate]);
+        $dataMapsFront = DB::connection('focus')->select($queryMapsFront, [$startDate, $endDate]);
         $dataMapsFront = collect($dataMapsFront);
 
 
@@ -328,7 +328,7 @@ class PeriodicRealtimeController extends Controller
                 AND DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT) / 60.0 > 5  -- Filter untuk LATENCY > 5 menit
         ";
 
-        $data = DB::select($query, [$startDate, $endDate]);
+        $data = DB::connection('focus')->select($query, [$startDate, $endDate]);
         $data = collect($data);
         $data = $data->map(function ($item) {
             return [
@@ -359,7 +359,7 @@ class PeriodicRealtimeController extends Controller
             B.LAYERNAME, A.MAPOBJECTID
         ";
 
-        $dataMaps = DB::select($queryMaps, [$startDate, $endDate]);
+        $dataMaps = DB::connection('focus')->select($queryMaps, [$startDate, $endDate]);
         $dataMaps = collect($dataMaps)->map(function($item) {
             if (isset($item->GEOPOINTS)) {
                 $geoPoints = $item->GEOPOINTS;
@@ -392,7 +392,7 @@ class PeriodicRealtimeController extends Controller
             B.LAYERNAME, A.MAPOBJECTID
         ";
 
-        $dataMapsDisposal = DB::select($queryMapsDisposal, [$startDate, $endDate]);
+        $dataMapsDisposal = DB::connection('focus')->select($queryMapsDisposal, [$startDate, $endDate]);
         $dataMapsDisposal = collect($dataMapsDisposal);
 
         $queryMapsFront = "
@@ -416,7 +416,7 @@ class PeriodicRealtimeController extends Controller
             B.LAYERNAME, A.MAPOBJECTID
         ";
 
-        $dataMapsFront = DB::select($queryMapsFront, [$startDate, $endDate]);
+        $dataMapsFront = DB::connection('focus')->select($queryMapsFront, [$startDate, $endDate]);
         $dataMapsFront = collect($dataMapsFront);
 
         return view('periodic_realtime.mapsUnit', compact('data', 'dataMaps', 'dataMapsDisposal', 'dataMapsFront'));

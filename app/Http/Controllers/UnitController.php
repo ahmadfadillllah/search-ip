@@ -12,7 +12,7 @@ class UnitController extends Controller
     //
     public function index()
     {
-        $unit = DB::connection('sqlsrv')
+        $unit = DB::connection('focus')
                     ->table('FLT_VEHICLE')
                     ->select([
                         'VHC_ID',
