@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f3c22bb381363b6061f25e87c644b6d",
+    "content-hash": "4e7ff4e77ae9cc0aae83685c8e02b981",
     "packages": [
         {
             "name": "benclerc/aruba-switchapi",
@@ -172,6 +172,75 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "clue/socket-raw",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/clue/socket-raw.git",
+                "reference": "91e9f619f6769f931454a9882c21ffd7623d06cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/clue/socket-raw/zipball/91e9f619f6769f931454a9882c21ffd7623d06cb",
+                "reference": "91e9f619f6769f931454a9882c21ffd7623d06cb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-sockets": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3 || ^5.7 || ^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Socket\\Raw\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering"
+                }
+            ],
+            "description": "Simple and lightweight OOP wrapper for PHP's low-level sockets extension (ext-sockets).",
+            "homepage": "https://github.com/clue/socket-raw",
+            "keywords": [
+                "Socket",
+                "client",
+                "datagram",
+                "dgram",
+                "icmp",
+                "ipv6",
+                "server",
+                "stream",
+                "tcp",
+                "udg",
+                "udp",
+                "unix"
+            ],
+            "support": {
+                "issues": "https://github.com/clue/socket-raw/issues",
+                "source": "https://github.com/clue/socket-raw/tree/v1.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://clue.engineering/support",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-04-14T14:58:06+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -676,6 +745,88 @@
                 }
             ],
             "time": "2023-11-12T22:16:48+00:00"
+        },
+        {
+            "name": "graze/telnet-client",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/graze/telnet-client.git",
+                "reference": "543f5f0f2108c4020320e5da38c7f03d7a6e9a5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/graze/telnet-client/zipball/543f5f0f2108c4020320e5da38c7f03d7a6e9a5b",
+                "reference": "543f5f0f2108c4020320e5da38c7f03d7a6e9a5b",
+                "shasum": ""
+            },
+            "require": {
+                "clue/socket-raw": "^1.3",
+                "php": ">5.5.0"
+            },
+            "require-dev": {
+                "graze/standards": "^2.0",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.0",
+                "squizlabs/php_codesniffer": "^3.5.0",
+                "symfony/var-dumper": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Graze\\TelnetClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Smith",
+                    "email": "john@graze.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Graze Developers",
+                    "email": "developers@graze.com",
+                    "homepage": "http://www.graze.com",
+                    "role": "Development Team"
+                },
+                {
+                    "name": "Bestnetwork",
+                    "email": "reparto.sviluppo@bestnetwork.it"
+                },
+                {
+                    "name": "Dalibor Andzakovic",
+                    "email": "dali@swerve.co.nz"
+                },
+                {
+                    "name": "Marc Ennaji"
+                },
+                {
+                    "name": "Matthias Blaser",
+                    "email": "mb@adfinis.ch"
+                },
+                {
+                    "name": "Christian Hammers",
+                    "email": "chammers@netcologne.de"
+                }
+            ],
+            "description": "Telnet client written in PHP",
+            "homepage": "https://github.com/graze/telnet-client",
+            "keywords": [
+                "client",
+                "graze",
+                "php",
+                "telnet",
+                "telnet-client"
+            ],
+            "support": {
+                "issues": "https://github.com/graze/telnet-client/issues",
+                "source": "https://github.com/graze/telnet-client/tree/v2.3.0"
+            },
+            "time": "2020-12-11T10:09:48+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1936,6 +2087,82 @@
                 }
             ],
             "time": "2024-01-28T23:22:08+00:00"
+        },
+        {
+            "name": "meklis/telnet",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/meklis/telnet-client.git",
+                "reference": "bb8cbcbb4f18283a5cd67c907dc4bd9f00adfc66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/meklis/telnet-client/zipball/bb8cbcbb4f18283a5cd67c907dc4bd9f00adfc66",
+                "reference": "bb8cbcbb4f18283a5cd67c907dc4bd9f00adfc66",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "meklis\\network\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bestnetwork",
+                    "email": "reparto.sviluppo@bestnetwork.it"
+                },
+                {
+                    "name": "Dalibor Andzakovic",
+                    "email": "dali@swerve.co.nz"
+                },
+                {
+                    "name": "Marc Ennaji"
+                },
+                {
+                    "name": "Matthias Blaser",
+                    "email": "mb@adfinis.ch"
+                },
+                {
+                    "name": "Christian Hammers",
+                    "email": "chammers@netcologne.de"
+                },
+                {
+                    "name": "Frederik Sauer",
+                    "email": "fsa@dwarf.dk"
+                },
+                {
+                    "name": "Kouhei Miyasaka",
+                    "email": "k.miyasaka@jpn21.net"
+                },
+                {
+                    "name": "Max Boyar",
+                    "email": "max.boyar.a@gmail.com"
+                }
+            ],
+            "description": "Telnet client in php",
+            "keywords": [
+                "bdcom",
+                "cisco",
+                "dlink",
+                "juniper",
+                "router",
+                "telnet",
+                "xos",
+                "xtreme"
+            ],
+            "support": {
+                "source": "https://github.com/meklis/telnet-client/tree/1.2.2"
+            },
+            "time": "2020-06-24T07:50:20+00:00"
         },
         {
             "name": "monolog/monolog",

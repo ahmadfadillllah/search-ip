@@ -9,7 +9,7 @@
 <meta content="Myra Studio" name="author" /> --}}
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('home/Admin/dist') }}/assets/images/favicon.png">
+    <link rel="shortcut icon" href="{{ asset('home/Admin/dist') }}/assets/images/icon.png">
 
     <link href="{{ asset('home/Admin/dist') }}/assets/libs/ladda/ladda.min.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('home/Admin/dist') }}/assets/libs/ladda/ladda-themeless.min.css" rel="stylesheet" type="text/css" />
@@ -33,6 +33,7 @@
     {{-- Leaflet.js --}}
     <link rel="stylesheet" href="{{ asset('leaflet') }}/leaflet.css" />
     <script src="{{ asset('leaflet') }}/leaflet.js"></script>
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

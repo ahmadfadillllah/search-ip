@@ -7,13 +7,13 @@
             <div class="logo-box">
                 <!-- Brand Logo Light -->
                 <a href="#" class="logo-light">
-                    <h3 class="logo-lg" style="color:blue" >IT Team</h3>
+                    <h3 class="logo-lg" style="color:blue" >IT-FMS Team</h3>
                     <img src="{{ asset('home/Admin/dist') }}/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
                 </a>
 
                 <!-- Brand Logo Dark -->
                 <a href="#" class="logo-dark">
-                    <h3 class="logo-lg" style="color:white" >IT Team</h3>
+                    <h3 class="logo-lg" style="color:white" >IT-FMS Team</h3>
                     <img src="{{ asset('home/Admin/dist') }}/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
                 </a>
             </div>
@@ -79,6 +79,12 @@
                         <a href="{{ route('realtimeritation.index') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-share-alt"></i></span>
                             <span class="menu-text"> Realtime Ritation</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('connectivityrate.index') }}" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-braille"></i></span>
+                            <span class="menu-text">Connectivity Rate</span>
                         </a>
                     </li>
                 </ul>

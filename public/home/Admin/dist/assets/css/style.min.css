@@ -21,9 +21,10 @@
     --bs-light-rgb: 66, 78, 90;
     --bs-dark: #031c36;
     --bs-dark-rgb: 243, 247, 249;
-    --bs-box-shadow: 0px 0px 35px 0px rgba(66, 72, 80, 0.15);
+
+    --bs-box-shadow: 0 2px 4px rgba(66, 72, 80, 0.15);
     --bs-box-shadow-sm: 0 0.75rem 6rem rgba(56, 65, 74, 0.03);
-    --bs-box-shadow-lg: 0 0 45px 0 rgba(0, 0, 0, 0.12);
+    --bs-box-shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.12);
     --bs-box-shadow-inset: inset 0 -0.1rem 0 rgba(0, 0, 0, 0.075)
 }
 
@@ -43,15 +44,15 @@
 }
 
 [data-menu-color=light] {
-    --bs-menu-bg: #031c36;
+    --bs-menu-bg: #eaefef;
     --bs-menu-item-color: #0a0a0a;
-    --bs-menu-item-hover-color: #031c36;
-    --bs-menu-item-active-color: #031c36;
+    --bs-menu-item-hover-color: #eaefef;
+    --bs-menu-item-active-color: #eaefef;
     --bs-menu-item-active-bg: rgba(255, 255, 255, 0.1)
 }
 
 [data-topbar-color=light] {
-    --bs-topbar-bg: #031c36;
+    --bs-topbar-bg: #eaefef;
     --bs-topbar-item-color: #6c757d;
     --bs-topbar-item-hover-color: #346ee0
 }
@@ -155,7 +156,7 @@
     --bs-body-line-height: 1.5;
     --bs-body-color: #000000;
     --bs-body-color-rgb: 116, 122, 128;
-    --bs-body-bg: #fafafa;
+    --bs-body-bg: #F2F2F2;
     --bs-body-bg-rgb: 255, 255, 255;
     --bs-emphasis-color: #000;
     --bs-emphasis-color-rgb: 0, 0, 0;
@@ -304,7 +305,7 @@ h5,
 h6 {
     margin-top: 0;
     margin-bottom: .5rem;
-    font-family: Nunito, cursive;
+    font-family: Poppins, sans-serif;
     font-weight: 600;
     line-height: 1.1;
     color: var(--bs-heading-color)
@@ -5649,7 +5650,8 @@ fieldset:disabled .btn {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
-    color: var(--bs-card-color)
+    color: var(--bs-card-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
@@ -16472,7 +16474,8 @@ html[data-bs-theme=dark] .auth-logo .logo-dark {
     min-height: var(--bs-topbar-height);
     -webkit-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
-    border-bottom: 1px solid var(--bs-border-color)
+    border-bottom: 1px solid var(--bs-border-color);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 .navbar-custom .topbar {
@@ -16623,9 +16626,9 @@ html[data-bs-theme=dark] #light-dark-mode .bx-moon::before {
     min-width: var(--bs-sidebar-width);
     -webkit-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
-    background: var(--bs-menu-bg);
+    background: #eaefef;
     -webkit-box-shadow: var(--bs-box-shadow);
-    box-shadow: var(--bs-box-shadow);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-right: 1px solid var(--bs-border-color)
 }
 
@@ -19476,7 +19479,7 @@ h6 {
 }
 
 .morris-chart text {
-    font-family: Nunito, cursive !important;
+    font-family: Poppins, sans-serif !important;
     fill: var(--bs-body-color)
 }
 
@@ -19498,7 +19501,7 @@ h6 {
 .morris-hover.morris-default-style .morris-hover-row-label {
     font-weight: 700;
     margin: .25em 0;
-    font-family: Nunito, cursive
+    font-family: Poppins, sans-serif
 }
 
 .morris-hover.morris-default-style .morris-hover-point {
@@ -21117,7 +21120,7 @@ div.dataTables_scrollBody>table>:not(:first-child) {
 
 .ms-optgroup-label {
     font-weight: 500;
-    font-family: Nunito, cursive;
+    font-family: Poppins, sans-serif;
     color: var(--bs-dark) !important;
     font-size: 13px
 }
@@ -21460,7 +21463,7 @@ span.flatpickr-weekday {
     border: none;
     background: var(--bs-dark);
     color: var(--bs-secondary-bg-subtle);
-    font-family: Nunito, cursive;
+    font-family: Poppins, sans-serif;
     font-size: .875rem;
     padding: 5px 8px
 }

@@ -151,7 +151,7 @@
 <script>
     $(document).ready(function() {
         $('#customTable').DataTable({
-            "pageLength": 20, // Default page length
+            "pageLength": 10, // Default page length
             "order": [[1, 'desc']], // Urutkan berdasarkan kolom "Average" (index 1) secara menurun
             "columnDefs": [
                 { "orderable": false, "targets": 0 } // Nonaktifkan pengurutan di kolom "Equipment"

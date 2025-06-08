@@ -22,6 +22,10 @@
             <button class="button-toggle-menu">
                 <i class="mdi mdi-menu"></i>
             </button>
+            <a href="index.html" class="logo-dark">
+                <img src="{{ asset('home/Admin/dist') }}/assets/images/sims.png" alt="dark logo" class="logo-lg" height="40">
+                <img src="{{ asset('home/Admin/dist') }}/assets/images/logo.png" alt="dark logo" class="logo-lg" height="40" style="margin-left: 10px;">
+            </a>
         </div>
 
         <ul class="topbar-menu d-flex align-items-center gap-4">
@@ -30,17 +34,6 @@
                 <a class="nav-link" href="" data-bs-toggle="fullscreen">
                     <i class="mdi mdi-fullscreen font-size-24"></i>
                 </a>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link dropdown-toggle waves-effect waves-light arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <i class="mdi mdi-magnify font-size-24"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-animated dropdown-menu-end dropdown-lg p-0">
-                    <form class="p-3">
-                        <input type="search" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
-                    </form>
-                </div>
             </li>
 
 

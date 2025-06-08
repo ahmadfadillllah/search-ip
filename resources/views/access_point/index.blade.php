@@ -139,9 +139,9 @@
                 },
                 success: function(response) {
                     Swal.fire({
-                        title: 'Sukses!',
+                        title: 'Information!',
                         text: response.message,
-                        icon: 'success'
+                        icon: 'info'
                     });
                 },
                 error: function(xhr, status, error) {

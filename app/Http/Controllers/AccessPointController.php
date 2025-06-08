@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use Symfony\Component\Process\Process;
+use Graze\TelnetClient\TelnetClient;
 
 class AccessPointController extends Controller
 {
@@ -76,52 +77,22 @@ class AccessPointController extends Controller
             'action_by' => request()->ip()
         ]);
 
+        try {
+            $telnet = new \meklis\network\Telnet($ip);
+            $telnet->connect();
+            sleep(2);
+            $telnet->exec('adminsims123');
 
-        $client = new \GuzzleHttp\Client();
-        $cookieJar = new \GuzzleHttp\Cookie\CookieJar();
-
-
-        $data_login = $client->post('https://10.10.2.12:4343/v1/api/login', [
-            'form_params' => [
-                'username' => env('USERNAME_ARUBA'),
-                'password' => env('PASSWORD_ARUBA'),
-                'action' => 'login'
-            ],
-            'verify' => false,
-            'cookies' => $cookieJar
-        ]
-        );
-
-
-        $headerSetCookies = $data_login->getHeader('Set-Cookie');
-
-        $cookies = [];
-        foreach ($headerSetCookies as $key => $header) {
-            $cookie = SetCookie::fromString($header);
-            $cookie->setDomain(env('IP_ARUBA'));
-
-            $cookies[] = $cookie;
+            $telnet->exec('reboot');
+            $telnet->disconnect();
+            return response()->json([
+                'message' => 'Berhasil mereboot ' .$apname. ', harap menunggu 5-0 menit',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ]);
         }
-        $cookieJar = new CookieJar(false, $cookies);
-
-        $cookiesArray = $cookieJar->toArray();
-        $firstCookie = $cookiesArray[0];
-
-        $response = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand?command=apboot+ap-name+'.$apname.'&UIDARUBA='.$firstCookie['Value'], [
-            'cookies' => $cookieJar,
-            'verify' => false,
-        ]);
-
-        $body = $response->getBody()->getContents();
-        $data = json_decode($body, true);
-
-        $min = rand(2, 10);
-        $max = rand($min + 1, 15);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Reboot ' . $apname . ' (' . $ip . ') berhasil, harap menunggu sekitar '.$min.'-'.$max.' menit'
-        ]);
     }
 
     public function ping(Request $request)

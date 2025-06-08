@@ -164,7 +164,8 @@ class PeriodicRealtimeController extends Controller
                 OPR_SHIFTDATE,
                 LOD_LOADERID as LOADER,
                 LOD_LOC_NAME as LOC_LOADER,
-                LOC_NAME as LOC_DUMPING
+                LOC_NAME as LOC_DUMPING,
+                OPR_SHIFTNO as SHIFT
             FROM
                 focus.dbo.PRD_RITATION WITH (NOLOCK)
             WHERE

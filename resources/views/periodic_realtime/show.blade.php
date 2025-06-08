@@ -29,6 +29,7 @@
                                 <th>FROM SYSTEM</th>
                                 <th>LATENCY (Minutes)</th>
                                 <th>Shift Date</th>
+                                <th>Shift</th>
                                 <th>LOCATION LOADER</th>
                                 <th>LOCATION DUMPING</th>
                             </tr>
@@ -41,6 +42,11 @@
                                     <td>{{ $dt->SYS_CREATEDAT }}</td>
                                     <td>{{ $dt->LATENCY }}</td>
                                     <td>{{ $dt->OPR_SHIFTDATE }}</td>
+                                    @if ($dt->SHIFT == 6)
+                                        <td>Siang</td>
+                                    @else
+                                        <td>Malam</td>
+                                    @endif
                                     <td>{{ $dt->LOC_LOADER }}</td>
                                     <td>{{ $dt->LOC_DUMPING }}</td>
                                 </tr>

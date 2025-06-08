@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\TopologyController;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/dashboard/api', [DashboardController::class, 'api'])->name('dashboard.api');
 
 Route::get('/client/api', [ClientController::class, 'api'])->name('client.api');
 

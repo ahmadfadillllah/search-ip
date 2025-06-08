@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccessPointController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConnectionController;
+use App\Http\Controllers\ConnectivityRateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\MarkerController;
@@ -63,6 +64,8 @@ Route::get('/periodic-realtime/mapsUnit/{startDate}/{endDate}/{vhcId}', [Periodi
 
 Route::get('/realtime-ritation/index', [RealtimeRitationController::class, 'index'])->name('realtimeritation.index');
 Route::get('/realtime-ritation/notrealtime/{date}/{time}', [RealtimeRitationController::class, 'notrealtime'])->name('realtimeritation.notrealtime');
+
+Route::get('/connectivity-rate/index', [ConnectivityRateController::class, 'index'])->name('connectivityrate.index');
 
 Route::get('/settings/index', [SettingsController::class, 'index'])->name('settings.index');
 Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
