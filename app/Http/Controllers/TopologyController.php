@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Topology;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
@@ -115,4 +117,19 @@ class TopologyController extends Controller
         ];
         return response()->json($data);
     }
+
+        public function api_history(Request $request)
+        {
+            $startDate = $request->startDate;
+            $startHour = $request->startHour;
+
+            $start = Carbon::parse("$startDate $startHour:00:00");
+            $end = (clone $start)->addHour();
+
+            $data = Topology::where('STATUSENABLED', true)
+                ->whereBetween('DATETIME', [$start, $end])
+                ->get();
+
+            return response()->json($data);
+        }
 }

@@ -85,25 +85,22 @@
 
     <!-- start page title -->
     <div class="py-3 py-lg-4">
-        <div class="row">
-            <div class="col-lg-6">
-                <h4 class="page-title mb-0" id="waktuSekarang">Last Refresh: </h4>
+        <div class="row align-items-center">
+            <div class="col-lg-6 d-flex align-items-center">
+                <h4 class="page-title mb-0" id="waktuSekarang">Last Refresh:</h4>
             </div>
-            <div class="col-lg-6">
-                <button class="ladda-button btn btn-primary" dir="ltr" data-style="expand-left" style="float: right"
-                    id="refresh-button">
+            <div class="col-lg-6 d-flex justify-content-end gap-2">
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#history-button">
+                    History
+                </button>
+                <button class="ladda-button btn btn-primary" dir="ltr" data-style="expand-left" id="refresh-button">
                     Refresh
                 </button>
-
-                {{-- <div class="d-none d-lg-block">
-                    <ol class="breadcrumb m-0 float-end">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Topology</li>
-                    </ol>
-                </div> --}}
             </div>
+            @include('topology.modal.history')
         </div>
     </div>
+
     <!-- end page title -->
 
     <div class="row">
@@ -113,13 +110,6 @@
                 <div class="card-body">
 
                     <h4 class="header-title">Topology</h4>
-                    {{-- <p class="text-muted font-size-13 mb-4">
-                        DataTables has most features enabled by default, so all you need to do to use it with your own
-                        tables is to call the construction
-                        function:
-                        <code>$().DataTable();</code>.
-                    </p> --}}
-
                     <table id="selection-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
@@ -141,33 +131,6 @@
 
 
                         <tbody>
-                            {{-- @foreach($data as $groupName => $groupItems)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                            <td>{{ $groupName }}</td>
-                            @foreach($groupItems as $item)
-                            <td>{{ $item['Mesh Role'] }}</td>
-                            <td>{{ $item['Parent'] }}</td>
-                            <td>{{ $item['Path Cost'] }}</td>
-                            <td>{{ $item['Node Cost'] }}</td>
-                            <td>{{ $item['Link Cost'] }}</td>
-                            <td>{{ $item['Hop Count'] }}</td>
-                            <td>{{ $item['Rate Tx/Rx'] }}</td>
-                            @if ($item['RSSI'] == 0 )
-                            <td><button type="button"
-                                    class="btn btn-dark waves-effect waves-light btn-xs">{{ $item['RSSI']  }}</button>
-                            </td>
-                            @elseif ($item['RSSI'] <= 20) <td><button type="button"
-                                    class="btn btn-danger btn-xs">{{ $item['RSSI']  }}</button></td>
-                                @else
-                                <td><button type="button" class="btn btn-success btn-xs">{{ $item['RSSI']  }}</button>
-                                </td>
-                                @endif
-                                <td>{{ $item['Last Update'] }}</td>
-                                <td>{{ $item['Uplink Age'] }}</td>
-                                @endforeach
-                                </tr>
-                                @endforeach --}}
                         </tbody>
                     </table>
 
@@ -191,34 +154,23 @@
 
 </div>
 @include('layout.footer')
-{{-- <script>
-    function clickRefreshButton() {
-        var refreshButton = document.getElementById('refresh-button');
-        refreshButton.click();
-    }
-    setInterval(clickRefreshButton, 15000);
-</script> --}}
 
 <script>
     function fetchDataAndUpdate() {
-        $('#loading').show(); // Tampilkan watermark
+        $('#loading').show();
         $.ajax({
-            url: "{{ route('topology.api') }}", // Route yang mengembalikan data JSON
+            url: "{{ route('topology.api') }}",
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                // Proses untuk DataTable
                 var table = $('#selection-datatable').DataTable({
-                    // Opsi DataTables tambahan bisa ditambahkan di sini
                     "paging": true,
                     "ordering": true,
                     "info": true,
                     "responsive": true,
-                    "destroy": true, // Menghancurkan tabel sebelum inisialisasi ulang
-                    // dll.
+                    "destroy": true,
                 });
 
-                // Kosongkan dan tambahkan baris baru ke tabel
                 table.clear().draw();
                 var rowNumber = 1;
                 $.each(response.data_topology, function (groupName, groupItems) {
@@ -251,21 +203,17 @@
                     });
                 });
 
-                // Proses untuk Tree View
                 var container = $('#data-list-container');
-                container.empty(); // Kosongkan kontainer sebelum menambahkan data
+                container.empty();
 
-                var parentMap = {}; // Map untuk menyimpan children dari setiap parent
-                var allItems = {}; // Map untuk menyimpan semua item dengan nama sebagai kunci
+                var parentMap = {};
+                var allItems = {};
 
-                // Memproses data untuk membangun parentMap dan allItems
                 $.each(response.data_tree, function (parent, children) {
                     $.each(children, function (index, item) {
-                        // Cek apakah item memiliki nama yang valid
                         if (item.Name) {
-                            allItems[item.Name] = item; // Menyimpan item dengan nama sebagai kunci
+                            allItems[item.Name] = item;
 
-                            // Menyimpan children di parentMap
                             if (item.Parent && !parentMap[item.Parent]) {
                                 parentMap[item.Parent] = [];
                             }
@@ -276,24 +224,20 @@
                     });
                 });
 
-                var displayedItems = {}; // Map untuk melacak item yang sudah ditampilkan
-
-                // Fungsi rekursif untuk membangun HTML dari parent-child map
+                var displayedItems = {};
                 function buildTree(parent) {
                     var ul = $('<ul class="tree-view"></ul>');
 
                     if (parentMap[parent]) {
-                        // Urutkan children berdasarkan nama
                         var sortedChildren = parentMap[parent].sort();
                         $.each(sortedChildren, function (index, child) {
                             var item = allItems[child];
                             if (item && !displayedItems[child]) {
                                 displayedItems[child] =
-                                true; // Tandai item sebagai sudah ditampilkan
+                                true;
                                 var li = $('<li></li>').text(child).addClass('tree-item');
                                 ul.append(li);
 
-                                // Tambahkan children ke parent
                                 li.append(buildTree(child));
                             }
                         });
@@ -302,15 +246,12 @@
                     return ul;
                 }
 
-                // Menampilkan root level (parent yang tidak memiliki parent)
                 $.each(response.data_tree, function (parent, children) {
-                    // Pastikan parent tidak sudah ditampilkan sebelumnya
                     if (!displayedItems[parent] && parent) {
                         var li = $('<li></li>').text(parent).addClass('tree-item');
                         container.append(li);
                         li.append(buildTree(parent));
 
-                        // Tandai parent sebagai sudah ditampilkan
                         displayedItems[parent] = true;
                     }
                 });
@@ -322,7 +263,7 @@
                 alert('Terjadi kesalahan: ' + error);
             },
             complete: function() {
-                $('#loading').hide(); // Sembunyikan watermark setelah selesai
+                $('#loading').hide();
             }
         });
     }
@@ -330,32 +271,88 @@
     function getTime() {
         const sekarang = new Date();
 
-        // Mendapatkan berbagai bagian dari tanggal dan waktu
         const tahun = sekarang.getFullYear();
-        const bulan = sekarang.getMonth() + 1; // Bulan dimulai dari 0 (Januari) hingga 11 (Desember)
+        const bulan = sekarang.getMonth() + 1;
         const tanggal = sekarang.getDate();
         const jam = sekarang.getHours();
         const menit = sekarang.getMinutes();
         const detik = sekarang.getSeconds();
 
-        // Format tanggal dan waktu
         const waktuFormat =
             `${tahun}-${bulan.toString().padStart(2, '0')}-${tanggal.toString().padStart(2, '0')} ${jam.toString().padStart(2, '0')}:${menit.toString().padStart(2, '0')}:${detik.toString().padStart(2, '0')}`;
 
-        // Menampilkan hasil di elemen dengan id "waktuSekarang"
         document.getElementById('waktuSekarang').textContent = `Last Refresh: ${waktuFormat}`;
     }
 
     $(document).ready(function () {
-        // Memanggil fungsi getData() pertama kali saat dokumen siap
         fetchDataAndUpdate();
         getTime();
     });
 
     $('#refresh-button').click(function () {
-        fetchDataAndUpdate(); // Panggil lagi fungsi getData() saat tombol "Refresh" ditekan
+        fetchDataAndUpdate();
         getTime();
 
     });
+
+</script>
+
+<script>
+$(document).ready(function () {
+    $('#search-button').on('click', function () {
+        const startDate = $('#startDate').val();
+        const startHour = $('#startHour').val();
+
+        if (!startDate ) {
+            alert('Silakan pilih tanggal dulu.');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('topology.history') }}",
+            type: 'GET',
+            data: {
+                startDate: startDate,
+                startHour: startHour,
+            },
+            success: function (response) {
+                const table = $('#history-datatable');
+                const tbody = table.find('tbody');
+                tbody.empty();
+
+                if (response.length === 0) {
+                    tbody.append('<tr><td colspan="12" class="text-center">Data tidak ditemukan.</td></tr>');
+                } else {
+                    response.forEach((item, index) => {
+                        const rssiClass = item.RSSI == 0 ? 'dark' : item.RSSI <= 20 ? 'danger' : 'success';
+                        const row = `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item.NAME}</td>
+                                <td><button class="btn btn-${rssiClass} btn-xs">${item.RSSI}</button></td>
+                                <td>${item.LAST_UPDATED}</td>
+                                <td>${item.PARENT}</td>
+                                <td>${item.MESH_ROLE}</td>
+                                <td>${item.PATH_COST}</td>
+                                <td>${item.NODE_COST}</td>
+                                <td>${item.LINK_COST}</td>
+                                <td>${item.HOP_COUNT}</td>
+                                <td>${item.RATE_TX_RX ?? '-'}</td>
+                                <td>${item.UPLINK_AGE}</td>
+                            </tr>
+                        `;
+                        tbody.append(row);
+                    });
+                }
+
+                // Tampilkan tabel
+                table.show();
+            },
+            error: function () {
+                alert("Terjadi kesalahan saat mengambil data.");
+            }
+        });
+    });
+});
 
 </script>

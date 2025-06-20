@@ -29,6 +29,7 @@ Route::get('/dashboard/api', [DashboardController::class, 'api'])->name('dashboa
 Route::get('/client/api', [ClientController::class, 'api'])->name('client.api');
 
 Route::get('/topology/api', [TopologyController::class, 'api'])->name('topology.api');
+Route::get('/topology/api/history', [TopologyController::class, 'api_history'])->name('topology.history');
 
 Route::get('/testing/api', [TestingController::class, 'api'])->name('testing.api');
 
