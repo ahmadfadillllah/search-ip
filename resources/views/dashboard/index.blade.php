@@ -140,7 +140,7 @@
         </div> <!-- end col-->
     </div>
     <div class="row">
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-4 col-xl-3">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-4">
@@ -148,7 +148,7 @@
                         <h5 class="card-title mb-0">Status Device</h5>
                     </div>
                     <div class="mt-4 chartjs-chart">
-                        <canvas id="devices" height="350" class="mt-4" data-colors="#00acc1,#fa5c7c,#4fc6e1,#ebeff2"></canvas>
+                        <canvas id="devices" height="320" class="mt-4" data-colors="#00acc1,#fa5c7c,#4fc6e1,#ebeff2"></canvas>
                     </div>
                     <p><span class="badge bg-primary">---</span> Connected: {{  $device->where('Type', null)->count() }}</p>
                     {{-- <p>Android: {{  $device->where('Type', 'Android')->count() }}</p> --}}
@@ -159,8 +159,20 @@
             </div><!-- end card-->
         </div>
 
+        <div class="col-md-4 col-xl-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Statistik Ritation 30 Hari Terakhir</h4>
 
-        <div class="col-md-6 col-xl-3">
+                    <div id="cardCollpase4" class="collapse show" dir="ltr">
+                        <div id="apex-ritation" class="apex-charts pt-3" data-colors="#07eb25,#00acc1"></div>
+                    </div>
+                     <!-- collapsed end -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-4">
@@ -233,16 +245,10 @@
                     </div>
 
                 </div>
-                <!--end card body-->
-            </div><!-- end card-->
-        </div>
-
-        <div class="col-md-6 col-xl-5">
-            <div class="card">
                 <div class="card-body">
                     <div class="mb-4">
                         <span class="badge badge-soft-primary float-end">Daily</span>
-                        <h5 class="card-title mb-0">Status Ritation</h5>
+                        <h5 class="card-title mb-0">Status Ritation Per Jam</h5>
                     </div>
 
                     <!-- Tabel untuk menampilkan data -->
@@ -296,7 +302,6 @@
 
                         </table>
                     </div>
-
                 </div>
                 <!--end card body-->
             </div><!-- end card-->
@@ -310,7 +315,65 @@
 
 
 @include('layout.footer')
+<!-- Third Party js-->
+<script src="{{ asset('home/Admin/dist') }}/assets/libs/apexcharts/apexcharts.min.js"></script>
+<!-- Demo js -->
+<script src="{{ asset('home/Admin/dist') }}/assets/js/pages/apexcharts.js"></script>
+<script>
+    const realtimeSeries = {!! json_encode($realtimeDataRitation) !!};
+    const totalSeries = {!! json_encode($totalDataRitation) !!};
 
+    // Ambil warna dari data-colors
+    colorsRitation = document.querySelector("#apex-ritation").dataset.colors?.split(",") ?? ["#07eb25", "#00acc1"];
+
+    optionsRitation = {
+        chart: {
+            height: 380,
+            type: "area",
+            stacked: false,
+            events: {
+                selection: function (e, o) {
+                    console.log(new Date(o.xaxis.min));
+                }
+            }
+        },
+        colors: colorsRitation,
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: [2],
+            curve: "smooth"
+        },
+        series: [
+            {
+                name: "Realtime",
+                data: realtimeSeries
+            },
+            {
+                name: "Total",
+                data: totalSeries
+            }
+        ],
+        fill: {
+            type: "gradient",
+            gradient: {
+                opacityFrom: 0.6,
+                opacityTo: 0.8
+            }
+        },
+        legend: {
+            position: "top",
+            horizontalAlign: "left"
+        },
+        xaxis: {
+            type: "datetime"
+        }
+    };
+
+    chartRitation = new ApexCharts(document.querySelector("#apex-ritation"), optionsRitation);
+    chartRitation.render();
+</script>
 <script>
     var device = @json($device);
 

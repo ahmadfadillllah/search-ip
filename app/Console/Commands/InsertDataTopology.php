@@ -69,7 +69,7 @@ class InsertDataTopology extends Command
                     'PARENT' => $item['Parent'],
                     'PATH_COST' => $item['Path Cost'],
                     'RSSI' => $item['RSSI'],
-                    // 'RATE_TX_RX' => $item['Rate Tx\/Rx'],
+                    'RATE_TX_RX' => $item['Rate Tx/Rx'],
                     'UPLINK_AGE' => $item['Uplink Age'],
                     'CREATED_BY' => 'SYSTEM',
                     'CREATED_AT' => Carbon::now(),

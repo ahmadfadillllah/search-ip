@@ -418,14 +418,14 @@ var options = {
     },
 
     series: [{
-        name: 'South',
+        name: 'Not Realtime',
         data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
             min: 10,
             max: 60
         })
     },
     {
-        name: 'North',
+        name: 'Realtime',
         data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
             min: 10,
             max: 20
@@ -433,7 +433,7 @@ var options = {
     },
 
     {
-        name: 'Central',
+        name: 'Total',
         data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
             min: 10,
             max: 15

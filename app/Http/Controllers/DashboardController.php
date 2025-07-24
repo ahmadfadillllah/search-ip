@@ -90,7 +90,36 @@ class DashboardController extends Controller
         $ritasi = DB::connection('focus')->select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?', [$date]);
         $ritasi = collect($ritasi);
 
-        return view('dashboard.index', compact('unit', 'type_aruba', 'device', 'statusUnit', 'aruba', 'ritasi'));
+        $statusRitation = DB::connection('focus')->select("
+            SELECT
+                CAST(OPR_REPORTTIME AS DATE) AS report_date,
+                COUNT(CASE WHEN DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT) <= 300 THEN 1 END) AS realtime,
+                COUNT(*) AS total
+            FROM PRD_RITATION WITH (NOLOCK)
+            WHERE OPR_REPORTTIME BETWEEN ? AND ?
+            GROUP BY CAST(OPR_REPORTTIME AS DATE)
+            ORDER BY report_date ASC
+        ", [
+            Carbon::now()->subDays(30)->format('Y-m-d 00:00:00'),
+            Carbon::now()->addDay()->format('Y-m-d 23:59:59')
+        ]);
+
+        $realtimeDataRitation = [];
+        $totalDataRitation = [];
+
+        foreach ($statusRitation as $row) {
+            $timestamp = strtotime($row->report_date) * 1000; // milidetik
+            $realtimeDataRitation[] = [
+                'x' => $timestamp,
+                'y' => (int) $row->realtime
+            ];
+            $totalDataRitation[] = [
+                'x' => $timestamp,
+                'y' => (int) $row->total
+            ];
+        }
+
+        return view('dashboard.index', compact('unit', 'type_aruba', 'device', 'statusUnit', 'aruba', 'ritasi', 'realtimeDataRitation', 'totalDataRitation'));
     }
 
     public function api()
