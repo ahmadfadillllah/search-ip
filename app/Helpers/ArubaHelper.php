@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use Illuminate\Support\Facades\Cache;
@@ -10,23 +12,25 @@ use Illuminate\Support\Facades\Cache;
 class ArubaHelper
 {
     /**
-     * Ambil Guzzle Client, CookieJar, dan UID, login jika belum ada di cache
+     * Ambil Guzzle Client, CookieJar, dan UID
+     * Akan login ulang jika tidak ada cache, atau jika $forceLogin = true
      */
-    public static function getClientWithLogin(): array
+    public static function getClientWithLogin(bool $forceLogin = false): array
     {
-        $cached = Cache::get('aruba_auth_data');
-
-        if ($cached && isset($cached['cookies'], $cached['uid'])) {
-            $client = new Client();
-            $cookieJar = new CookieJar(false, $cached['cookies']);
-            return [
-                'client' => $client,
-                'cookieJar' => $cookieJar,
-                'uid' => $cached['uid'],
-            ];
+        if (!$forceLogin) {
+            $cached = Cache::get('aruba_auth_data');
+            if ($cached && isset($cached['cookies'], $cached['uid'])) {
+                $client = new Client();
+                $cookieJar = new CookieJar(false, $cached['cookies']);
+                return [
+                    'client' => $client,
+                    'cookieJar' => $cookieJar,
+                    'uid' => $cached['uid'],
+                ];
+            }
         }
 
-        // Jika belum login atau cache kadaluarsa, lakukan login
+        // Login ke Aruba Controller
         $client = new Client();
         $cookieJar = new CookieJar();
 
@@ -57,7 +61,7 @@ class ArubaHelper
             throw new \Exception('Gagal login ke Aruba Controller: UID tidak ditemukan.');
         }
 
-        // Simpan cookies dan uid ke cache (hanya data serializable)
+        // Cache cookies dan uid
         Cache::put('aruba_auth_data', [
             'cookies' => $cookies,
             'uid' => $uid,
@@ -71,26 +75,44 @@ class ArubaHelper
     }
 
     /**
-     * Ambil data dari Aruba Controller berdasarkan command
+     * Jalankan perintah dan retry jika terjadi 401 (login ulang)
      */
     public static function fetchCommand(string $command): array
     {
-        $data = self::getClientWithLogin();
+        try {
+            return self::executeCommand($command, false);
+        } catch (ClientException | RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                // Login ulang jika session habis
+                return self::executeCommand($command, true);
+            }
 
-        $response = $data['client']->get('https://' . env('IP_ARUBA') . ':4343/v1/configuration/showcommand', [
+            // Error lain dilempar lagi
+            throw $e;
+        }
+    }
+
+    /**
+     * Eksekusi perintah ke Aruba Controller
+     */
+    private static function executeCommand(string $command, bool $forceLogin): array
+    {
+        $session = self::getClientWithLogin($forceLogin);
+
+        $response = $session['client']->get('https://' . env('IP_ARUBA') . ':4343/v1/configuration/showcommand', [
             'query' => [
                 'command' => $command,
-                'UIDARUBA' => $data['uid'],
+                'UIDARUBA' => $session['uid'],
             ],
             'verify' => false,
-            'cookies' => $data['cookieJar'],
+            'cookies' => $session['cookieJar'],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
-     * (Opsional) Clear cache untuk paksa login ulang
+     * Bersihkan cache Aruba auth data (paksa login ulang di next request)
      */
     public static function clearCache(): void
     {

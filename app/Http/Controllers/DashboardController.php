@@ -10,6 +10,8 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use GuzzleHttp\Client;
 use App\Helpers\ArubaHelper;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 class DashboardController extends Controller
 {
@@ -40,18 +42,31 @@ class DashboardController extends Controller
 
         $dataAruba = [];
 
-        foreach ($commands as $command => $responseKey) {
-            $response = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand', [
-                'query' => [
-                    'command' => $command,
-                    'UIDARUBA' => $uidAruba
-                ],
-                'verify' => false,
-                'cookies' => $cookieJar,
-            ]);
 
-            $body = json_decode($response->getBody()->getContents(), true);
-            $dataAruba[$responseKey] = collect($body[$responseKey] ?? []);
+        foreach ($commands as $command => $responseKey) {
+            try {
+                $response = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand', [
+                    'query' => [
+                        'command' => $command,
+                        'UIDARUBA' => $uidAruba
+                    ],
+                    'verify' => false,
+                    'cookies' => $cookieJar,
+                ]);
+
+                $body = json_decode($response->getBody(), true);
+                $dataAruba[$responseKey] = collect($body[$responseKey] ?? []);
+
+            } catch (ClientException | RequestException $e) {
+                if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                    ArubaHelper::clearCache();
+                    return redirect()->back()->with('info', 'Sesi login Aruba habis. Harap mencoba kembali 30 detik - 1 menit');
+                }
+
+                return redirect()->back()->with('info', 'Client error: ' . $e->getMessage());
+            } catch (\Throwable $e) {
+                return redirect()->back()->with('info', 'Terjadi kesalahan: ' . $e->getMessage());
+            }
         }
 
         $type_aruba = $dataAruba['Active AP Table'];

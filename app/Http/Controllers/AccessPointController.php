@@ -10,16 +10,18 @@ use GuzzleHttp\Cookie\SetCookie;
 use Symfony\Component\Process\Process;
 use Graze\TelnetClient\TelnetClient;
 use App\Helpers\ArubaHelper;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 class AccessPointController extends Controller
 {
     //
     public function index()
     {
+
         try {
             $aruba = ArubaHelper::getClientWithLogin();
 
-            // Request data show ap database long
             $response = $aruba['client']->get('https://' . env('IP_ARUBA') . ':4343/v1/configuration/showcommand', [
                 'query' => [
                     'command' => 'show ap database long',
@@ -35,6 +37,15 @@ class AccessPointController extends Controller
             $data = collect($data['AP Database'])->sortBy('Status');
 
             return view('access_point.index', compact('data'));
+
+        } catch (ClientException | RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                ArubaHelper::clearCache();
+                return redirect()->back()->with('info', 'Sesi login Aruba habis. Harap mencoba kembali 30 detik - 1 menit');
+            }
+
+            return redirect()->back()->with('info', 'Gagal mengambil data Access Point: ' . $e->getMessage());
+
         } catch (\Throwable $th) {
             return redirect()->route('dashboard.index')->with('info', 'Gagal mengambil data Access Point.');
         }

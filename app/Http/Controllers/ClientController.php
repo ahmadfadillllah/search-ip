@@ -8,6 +8,8 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ArubaHelper;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 class ClientController extends Controller
 {
@@ -15,7 +17,7 @@ class ClientController extends Controller
     public function index()
     {
         try {
-        // Ambil client login dari helper
+            // Ambil client login dari helper
             $aruba = ArubaHelper::getClientWithLogin();
 
             // Request data user-table dari Aruba
@@ -55,6 +57,14 @@ class ClientController extends Controller
             ];
 
             return view('client.index', compact('data', 'datas'));
+
+        } catch (ClientException | RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                ArubaHelper::clearCache();
+                return redirect()->back()->with('info', 'Sesi login Aruba habis. Harap mencoba kembali 30 detik - 1 menit');
+            }
+
+            return redirect()->back()->with('info', 'Gagal mengambil data client Aruba: ' . $e->getMessage());
 
         } catch (\Throwable $th) {
             return redirect()->route('dashboard.index')->with('info', 'Gagal mengambil data client Aruba.');

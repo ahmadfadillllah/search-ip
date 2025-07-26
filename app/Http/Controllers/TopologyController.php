@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use App\Helpers\ArubaHelper;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 class TopologyController extends Controller
 {
@@ -41,6 +43,14 @@ class TopologyController extends Controller
                 ->groupBy('Parent');
 
             return view('topology.index', compact('data_topology', 'data_tree'));
+
+        } catch (ClientException | RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                ArubaHelper::clearCache();
+                return redirect()->back()->with('info', 'Sesi login Aruba habis. Harap mencoba kembali 30 detik - 1 menit');
+            }
+
+            return redirect()->back()->with('info', 'Gagal mengambil data topology Aruba: ' . $e->getMessage());
 
         } catch (\Throwable $th) {
             return redirect()->route('dashboard.index')->with('info', 'Gagal mengambil data topology Aruba.');
