@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e7ff4e77ae9cc0aae83685c8e02b981",
+    "content-hash": "97667098cc614a97e93bf9e5b011a2cf",
     "packages": [
         {
             "name": "benclerc/aruba-switchapi",

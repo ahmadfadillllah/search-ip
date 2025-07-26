@@ -5,7 +5,7 @@
 <div class="container-fluid">
 
     <!-- start page title -->
-    <div class="py-3 py-lg-4">
+    <div class="py-3">
         <div class="row">
             <div class="col-lg-6">
                 <h4 class="page-title mb-0">Periodic Realtime</h4>
@@ -40,6 +40,34 @@
                 </form>
             </div>
 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <!-- Portlet card -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Trend Unit Not Realtime</h4>
+
+                    <div id="cardCollpase8" class="collapse show" dir="ltr">
+                        <div id="apex-trend-unit" class="apex-charts pt-3" data-colors="#f672a7"></div>
+                    </div> <!-- collapsed end -->
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+
+        <div class="col-xl-6">
+                            <!-- Portlet card -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">{{ $monthlyRekap[0]->VHC_ID }} (Top 1 Unit Not Realtime)</h4>
+
+                    <div id="cardCollpase10" class="collapse show" dir="ltr">
+                        <div id="apex-top-trend" class="apex-charts pt-3" data-colors="#00acc1,#1abc9c"></div>
+                    </div> <!-- collapsed end -->
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
         </div>
     </div>
     <!-- end page title -->
@@ -111,6 +139,123 @@
 
 </div>
 @include('layout.footer')
+
+<script>
+    dataColors = $("#apex-trend-unit").data("colors"),
+    optionTrendUnit = {
+        chart: {
+            height: 380,
+            type: "bar",
+            toolbar: {
+                show: !1
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: !0
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        series: [{
+            name: "Total",
+            data: @json($trend['dataTrend'])
+        }],
+        colors: colors = dataColors ? dataColors.split(",") : colors,
+        xaxis: {
+            categories: @json($trend['categoriesTrend'])
+        },
+        states: {
+            hover: {
+                filter: "none"
+            }
+        },
+        grid: {
+            borderColor: "#f1f3fa"
+        }
+    };
+    chartTrendUnit = new ApexCharts(document.querySelector("#apex-trend-unit"), optionTrendUnit);
+    chartTrendUnit.render();
+
+    dataColorsTopTrend = $("#apex-top-trend").data("colors"),
+    optionsTopTrend = {
+    chart: {
+        height: 380,
+        type: "line",
+        padding: {
+            right: 0,
+            left: 0
+        },
+        stacked: !1,
+        toolbar: {
+            show: !1
+        }
+    },
+    stroke: {
+        width: [0, 2, 4],
+        curve: "smooth"
+    },
+    plotOptions: {
+        bar: {
+            columnWidth: "50%"
+        }
+    },
+    colors: colors = dataColorsTopTrend ? dataColorsTopTrend.split(",") : colors,
+    series: [{
+        name: "Total Not Realtime",
+        type: "column",
+        data: @json(collect($monthlyRekap)->pluck('TOTAL_NOT_REALTIME')),
+    }, {
+        name: "Total Realtime",
+        type: "area",
+        data: @json(collect($monthlyRekap)->pluck('TOTAL_REALTIME')),
+    }],
+    fill: {
+        opacity: [.85, .25, 1],
+        gradient: {
+            inverseColors: !1,
+            shade: "light",
+            type: "vertical",
+            opacityFrom: .85,
+            opacityTo: .55,
+            stops: [0, 100, 100, 100]
+        }
+    },
+    labels: @json(collect($monthlyRekap)->pluck('BULAN')),
+    markers: {
+        size: 0
+    },
+    legend: {
+        offsetY: 7
+    },
+    xaxis: {
+        type: "datetime"
+    },
+    yaxis: {
+        title: {
+            text: "Points"
+        }
+    },
+    tooltip: {
+        shared: !0,
+        intersect: !1,
+        y: {
+            formatter: function (e) {
+                return void 0 !== e ? e.toFixed(0) + " points" : e
+            }
+        }
+    },
+    grid: {
+        borderColor: "#f1f3fa",
+        padding: {
+            bottom: 10
+        }
+    }
+};
+    chartTopTrend = new ApexCharts(document.querySelector("#apex-top-trend"), optionsTopTrend);
+    chartTopTrend.render();
+</script>
 <script>
     // Fungsi untuk mendapatkan parameter query dari URL
     function getQueryParam(name, defaultValue) {

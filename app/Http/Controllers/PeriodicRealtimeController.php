@@ -149,7 +149,86 @@ class PeriodicRealtimeController extends Controller
         if (empty($displayData)) {
             return redirect()->back()->with('info', 'Maaf, data periodec tidak ditemukan');
         }
-        return view('periodic_realtime.index', compact('displayData', 'startDate', 'endDate'));
+
+        $sortedTrend = $displayData;
+
+        usort($sortedTrend, function ($a, $b) {
+            return $b['TOTAL_NOT_REALTIME'] <=> $a['TOTAL_NOT_REALTIME'];
+        });
+
+        // Harus slice dari $sortedTred, bukan $displayData
+        $top10 = array_slice($sortedTrend, 0, 10);
+
+        $categoriesTrend = array_map(fn($item) => $item['Equipment'], $top10);
+        $dataTrend = array_map(fn($item) => $item['TOTAL_NOT_REALTIME'], $top10);
+
+        $trend = [
+            'categoriesTrend' => $categoriesTrend,
+            'dataTrend' => $dataTrend,
+        ];
+
+        // Ambil data 12 bulan terakhir (otomatis)
+        $startMonth = Carbon::now()->subMonths(11)->startOfMonth()->format('Y-m-d');
+        $endMonth = Carbon::now()->endOfMonth()->format('Y-m-d');
+
+        // Ambil VHC_ID pertama dari top 10
+        $top10VhcIds = array_map(fn($item) => $item['Equipment'], $top10);
+        $firstVhcId = $top10VhcIds[0] ?? null;
+
+        // Jika tidak ada data, hentikan lebih awal
+        if (!$firstVhcId) {
+            abort(404, 'Data VHC_ID tidak ditemukan.');
+        }
+
+        // Buat query SQL
+        $rekapQuery = "
+            SELECT
+                BULAN,
+                VHC_ID,
+                TOTAL_REALTIME,
+                TOTAL_NOT_REALTIME,
+                PRCT_REALTIME
+            FROM (
+                SELECT
+                    VHC_ID,
+                    CONVERT(VARCHAR(7), OPR_SHIFTDATE, 120) AS BULAN,
+                    SUM(CASE WHEN CATEGORY = 1 THEN NDATA ELSE 0 END) AS TOTAL_REALTIME,
+                    SUM(CASE WHEN CATEGORY = 0 THEN NDATA ELSE 0 END) AS TOTAL_NOT_REALTIME,
+                    CAST(
+                        SUM(CASE WHEN CATEGORY = 1 THEN NDATA ELSE 0 END) * 1.0 / NULLIF(SUM(NDATA), 0) * 100
+                        AS DECIMAL(5,2)
+                    ) AS PRCT_REALTIME
+                FROM (
+                    SELECT
+                        VHC_ID,
+                        IIF(DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT)/60.0 > 5, 0, 1) AS CATEGORY,
+                        COUNT(*) AS NDATA,
+                        OPR_SHIFTDATE
+                    FROM focus.dbo.PRD_RITATION WITH (NOLOCK)
+                    WHERE
+                        OPR_SHIFTDATE BETWEEN ? AND ?
+                        AND SYS_UPDATEDBY = 'SYSTEM'
+                        AND SYS_CREATEDBY = 'SYSTEM'
+                        AND VHC_ID = ?
+                    GROUP BY
+                        VHC_ID,
+                        IIF(DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT)/60.0 > 5, 0, 1),
+                        OPR_SHIFTDATE
+                ) AS AGG
+                GROUP BY VHC_ID, CONVERT(VARCHAR(7), OPR_SHIFTDATE, 120)
+            ) AS FINAL
+            ORDER BY BULAN ASC, VHC_ID ASC
+        ";
+
+        $monthlyRekap = DB::connection('focus')->select($rekapQuery, [
+            $startMonth,
+            $endMonth,
+            $firstVhcId,
+            $startMonth,
+            $endMonth,
+        ]);
+
+        return view('periodic_realtime.index', compact('displayData', 'startDate', 'endDate', 'trend', 'monthlyRekap'));
     }
 
     public function notRealtime($startDate, $endDate, $vhcId)

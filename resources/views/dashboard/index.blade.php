@@ -315,10 +315,7 @@
 
 
 @include('layout.footer')
-<!-- Third Party js-->
-<script src="{{ asset('home/Admin/dist') }}/assets/libs/apexcharts/apexcharts.min.js"></script>
-<!-- Demo js -->
-<script src="{{ asset('home/Admin/dist') }}/assets/js/pages/apexcharts.js"></script>
+
 <script>
     const realtimeSeries = {!! json_encode($realtimeDataRitation) !!};
     const totalSeries = {!! json_encode($totalDataRitation) !!};

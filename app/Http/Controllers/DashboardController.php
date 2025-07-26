@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
+use GuzzleHttp\Client;
+use App\Helpers\ArubaHelper;
 
 class DashboardController extends Controller
 {
@@ -15,81 +17,56 @@ class DashboardController extends Controller
     public function index()
     {
         $unit = DB::connection('focus')
-                    ->table('FLT_VEHICLE')
-                    ->select([
-                        'VHC_ID',
-                        'EQU_TYPEID',
-                        'NET_IPADDRESS',
-                        'APP_VERSION',
-                    ])
-                    ->where('VHC_ACTIVE', true)
-                    ->get();
+            ->table('FLT_VEHICLE')
+            ->select(['VHC_ID', 'EQU_TYPEID', 'NET_IPADDRESS', 'APP_VERSION'])
+            ->where('VHC_ACTIVE', true)
+            ->get();
 
+        // 2. Ambil status unit
+        $statusUnit = collect(DB::connection('focus')->select('SET NOCOUNT ON; EXEC FOCUS_REPORTING.DBO.RPT_DASHBOARD_RESUME_TOTAL_UNIT'));
 
-        $statusUnit = DB::connection('focus')->select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.DBO.RPT_DASHBOARD_RESUME_TOTAL_UNIT');
-        $statusUnit = collect($statusUnit);
+        // 3. Login Aruba sekali melalui helper
+        $aruba = ArubaHelper::getClientWithLogin();
+        $client = $aruba['client'];
+        $cookieJar = $aruba['cookieJar'];
+        $uidAruba = $aruba['uid'];
 
+        // 4. Fetch data dari Aruba menggunakan UID
+        $commands = [
+            'show ap active' => 'Active AP Table',
+            'show ap database long' => 'AP Database',
+            'show user-table' => 'Users',
+        ];
 
-        $client = new \GuzzleHttp\Client();
-        $cookieJar = new \GuzzleHttp\Cookie\CookieJar();
+        $dataAruba = [];
 
-        $data_login = $client->post('https://10.10.2.12:4343/v1/api/login', [
-            'form_params' => [
-                'username' => env('USERNAME_ARUBA'),
-                'password' => env('PASSWORD_ARUBA'),
-                'action' => 'login'
-            ],
-            'verify' => false,
-            'cookies' => $cookieJar
-        ]
-        );
+        foreach ($commands as $command => $responseKey) {
+            $response = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand', [
+                'query' => [
+                    'command' => $command,
+                    'UIDARUBA' => $uidAruba
+                ],
+                'verify' => false,
+                'cookies' => $cookieJar,
+            ]);
 
-
-        $headerSetCookies = $data_login->getHeader('Set-Cookie');
-
-        $cookies = [];
-        foreach ($headerSetCookies as $key => $header) {
-            $cookie = SetCookie::fromString($header);
-            $cookie->setDomain(env('IP_ARUBA'));
-
-            $cookies[] = $cookie;
+            $body = json_decode($response->getBody()->getContents(), true);
+            $dataAruba[$responseKey] = collect($body[$responseKey] ?? []);
         }
-        $cookieJar = new CookieJar(false, $cookies);
 
-        $cookiesArray = $cookieJar->toArray();
-        $firstCookie = $cookiesArray[0];
+        $type_aruba = $dataAruba['Active AP Table'];
+        $aruba = $dataAruba['AP Database'];
+        $device = $dataAruba['Users'];
 
-        $response = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand?command=show+ap+active&UIDARUBA='.$firstCookie['Value'], [
-            'cookies' => $cookieJar,
-            'verify' => false,
-        ]);
-        $body = $response->getBody()->getContents();
-        $type_aruba = json_decode($body, true);
-        $type_aruba = collect($type_aruba['Active AP Table']);
-
-        $responseAP = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand?command=show+ap+database+long&UIDARUBA='.$firstCookie['Value'], [
-            'cookies' => $cookieJar,
-            'verify' => false,
-        ]);
-        $bodyAP = $responseAP->getBody()->getContents();
-        $aruba = json_decode($bodyAP, true);
-        $aruba = collect($aruba['AP Database']);
-
-        $responseDevice = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand?command=show+user-table&UIDARUBA='.$firstCookie['Value'], [
-            'cookies' => $cookieJar,
-            'verify' => false,
-        ]);
-
-        $bodyDevice = $responseDevice->getBody()->getContents();
-        $device = json_decode($bodyDevice, true);
-        $device = collect($device['Users']);
-
+        // 5. Ambil data ritasi
         $now = new DateTime();
         $date = $now->format('Y-m-d');
+        $ritasi = collect(DB::connection('focus')->select(
+            'SET NOCOUNT ON; EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?',
+            [$date]
+        ));
 
-        $ritasi = DB::connection('focus')->select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_RATE_PER_HOUR_RESUMEDATA @DATE = ?', [$date]);
-        $ritasi = collect($ritasi);
-
+        // 6. Hitung status ritasi realtime vs total
         $statusRitation = DB::connection('focus')->select("
             SELECT
                 CAST(OPR_REPORTTIME AS DATE) AS report_date,
@@ -108,18 +85,22 @@ class DashboardController extends Controller
         $totalDataRitation = [];
 
         foreach ($statusRitation as $row) {
-            $timestamp = strtotime($row->report_date) * 1000; // milidetik
-            $realtimeDataRitation[] = [
-                'x' => $timestamp,
-                'y' => (int) $row->realtime
-            ];
-            $totalDataRitation[] = [
-                'x' => $timestamp,
-                'y' => (int) $row->total
-            ];
+            $timestamp = strtotime($row->report_date) * 1000;
+            $realtimeDataRitation[] = ['x' => $timestamp, 'y' => (int) $row->realtime];
+            $totalDataRitation[] = ['x' => $timestamp, 'y' => (int) $row->total];
         }
 
-        return view('dashboard.index', compact('unit', 'type_aruba', 'device', 'statusUnit', 'aruba', 'ritasi', 'realtimeDataRitation', 'totalDataRitation'));
+        // 7. Kirim ke view
+        return view('dashboard.index', compact(
+            'unit',
+            'statusUnit',
+            'type_aruba',
+            'aruba',
+            'device',
+            'ritasi',
+            'realtimeDataRitation',
+            'totalDataRitation'
+        ));
     }
 
     public function api()

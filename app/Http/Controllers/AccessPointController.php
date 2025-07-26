@@ -9,89 +9,82 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use Symfony\Component\Process\Process;
 use Graze\TelnetClient\TelnetClient;
+use App\Helpers\ArubaHelper;
 
 class AccessPointController extends Controller
 {
     //
     public function index()
     {
-        $client = new \GuzzleHttp\Client();
-        $cookieJar = new \GuzzleHttp\Cookie\CookieJar();
+        try {
+            $aruba = ArubaHelper::getClientWithLogin();
 
-        $data_login = $client->post('https://10.10.2.12:4343/v1/api/login', [
-            'form_params' => [
-                'username' => env('USERNAME_ARUBA'),
-                'password' => env('PASSWORD_ARUBA'),
-                'action' => 'login'
-            ],
-            'verify' => false,
-            'cookies' => $cookieJar
-        ]
-        );
+            // Request data show ap database long
+            $response = $aruba['client']->get('https://' . env('IP_ARUBA') . ':4343/v1/configuration/showcommand', [
+                'query' => [
+                    'command' => 'show ap database long',
+                    'UIDARUBA' => $aruba['uid']
+                ],
+                'cookies' => $aruba['cookieJar'],
+                'verify' => false,
+            ]);
 
+            $body = $response->getBody()->getContents();
+            $data = json_decode($body, true);
 
-        $headerSetCookies = $data_login->getHeader('Set-Cookie');
+            $data = collect($data['AP Database'])->sortBy('Status');
 
-        $cookies = [];
-        foreach ($headerSetCookies as $key => $header) {
-            $cookie = SetCookie::fromString($header);
-            $cookie->setDomain(env('IP_ARUBA'));
-
-            $cookies[] = $cookie;
+            return view('access_point.index', compact('data'));
+        } catch (\Throwable $th) {
+            return redirect()->route('dashboard.index')->with('info', 'Gagal mengambil data Access Point.');
         }
-        $cookieJar = new CookieJar(false, $cookies);
-
-        $cookiesArray = $cookieJar->toArray();
-        $firstCookie = $cookiesArray[0];
-
-        $response = $client->get('https://10.10.2.12:4343/v1/configuration/showcommand?command=show+ap+database+long&UIDARUBA='.$firstCookie['Value'], [
-            'cookies' => $cookieJar,
-            'verify' => false,
-        ]);
-
-        $body = $response->getBody()->getContents();
-        $data = json_decode($body, true);
-        $data = collect($data['AP Database'])->sortBy('Status');
-
-        return view('access_point.index', compact('data'));
 
     }
 
     public function reboot(Request $request)
     {
-        $ip = $request->input('ip');
-        $apname = $request->input('apName');
-        $statusap = $request->input('statusAP');
-
-        $lastId = LogReboot::max('id') ?? 1;
-        $newId = $lastId + 1;
-
-        LogReboot::create([
-            'id' => $newId,
-            'tgl_aksi' => Carbon::now(),
-            'ip' => $ip,
-            'ap_name' => $apname,
-            'status_wlc' => $statusap,
-            'status_ping' => shell_exec("ping $ip"),
-            'keterangan' => 'Reboot AP',
-            'action_by' => request()->ip()
+        $request->validate([
+            'ip' => 'required|ip',
+            'apName' => 'required|string',
+            'statusAP' => 'required|string',
         ]);
 
-        try {
-            $telnet = new \meklis\network\Telnet($ip);
-            $telnet->connect();
-            sleep(2);
-            $telnet->exec('adminsims123');
+        $ip = $request->ip();
+        $apName = $request->apName;
+        $statusAP = $request->statusAP;
 
-            $telnet->exec('reboot');
-            $telnet->disconnect();
-            return response()->json([
-                'message' => 'Berhasil mereboot ' .$apname. ', harap menunggu 5-0 menit',
+        try {
+            $aruba = ArubaHelper::getClientWithLogin();
+
+            // Lakukan request ke Aruba
+            $response = $aruba['client']->get('https://' . env('IP_ARUBA') . ':4343/v1/configuration/showcommand', [
+                'query' => [
+                    'command' => 'reboot ap '.$apName,
+                    'UIDARUBA' => $aruba['uid']
+                ],
+                'cookies' => $aruba['cookieJar'],
+                'verify' => false,
             ]);
+
+            LogReboot::create([
+                'tgl_aksi' => Carbon::now(),
+                'ip' => $ip,
+                'ap_name' => $apName,
+                'status_wlc' => $statusAP,
+                'status_ping' => shell_exec(PHP_OS_FAMILY == 'Windows' ? "ping -n 1 $ip" : "ping -c 1 $ip"),
+                'keterangan' => 'Reboot via Aruba API',
+                'action_by' => $request->ip()
+            ]);
+
+            return response()->json([
+                'message' => "Berhasil mengirim perintah reboot ke $apName.",
+                'data' => $response,
+            ]);
+
         } catch (\Throwable $e) {
             return response()->json([
-                'message' => $e->getMessage(),
-            ]);
+                'message' => "Gagal: " . $e->getMessage()
+            ], 500);
         }
     }
 
