@@ -61,7 +61,7 @@
                             <!-- Portlet card -->
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">{{ $monthlyRekap[0]->VHC_ID }} (Top 1 Unit Not Realtime)</h4>
+                    <h4 class="header-title">Top 1 Ritation {{ $monthlyRekap[0]->VHC_ID }} (by Date Filter)</h4>
 
                     <div id="cardCollpase10" class="collapse show" dir="ltr">
                         <div id="apex-top-trend" class="apex-charts pt-3" data-colors="#00acc1,#1abc9c"></div>
