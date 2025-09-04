@@ -15,14 +15,14 @@ class PeriodicRealtimeController extends Controller
 
         if (empty($request->startDate) || empty($request->endDate)){
             $now = new DateTime();
+            $now2 = new DateTime();
             $yesterday = $now->modify('-1 day')->format('Y-m-d');
 
-            // $end = (clone $start)->modify('+1 hour');
-            $startDate = $yesterday;
-            $endDate = $yesterday;
+            $startDate = $yesterday;              // string
+            $endDate = $now2->format('Y-m-d');    // string
 
-            $start = new DateTime("$startDate");
-            $end = new DateTime("$endDate");
+            $start = new DateTime($startDate);    // ok
+            $end = new DateTime($endDate);
 
         }else{
             $start = new DateTime("$request->startDate");
