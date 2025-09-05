@@ -266,13 +266,13 @@
     // Ambil tanggal kemarin
     const currentDate = new Date();
     const currentDate2 = new Date();
-    currentDate.setDate(currentDate.getDate() - 1); // Kurangi 1 hari untuk mendapatkan tanggal kemarin
-    const yesterday = currentDate.toISOString().split('T')[0];
+    currentDate.setDate(currentDate.getDate() + 1); // Kurangi 1 hari untuk mendapatkan tanggal kemarin
+    const tomorrow = currentDate.toISOString().split('T')[0];
     const now2 = currentDate2.toISOString().split('T')[0];  // Format 'YYYY-MM-DD'
 
     // Ambil nilai dari query string atau gunakan nilai default (kemarin)
-    const startDate = getQueryParam('startDate', yesterday);  // Default ke tanggal kemarin jika tidak ada
-    const endDate = getQueryParam('endDate', now2);  // Default ke tanggal kemarin jika tidak ada
+    const startDate = getQueryParam('startDate', now2);  // Default ke tanggal kemarin jika tidak ada
+    const endDate = getQueryParam('endDate', tomorrow);  // Default ke tanggal kemarin jika tidak ada
 
     // Set nilai pada elemen input
     document.getElementById('startDate').value = startDate;
