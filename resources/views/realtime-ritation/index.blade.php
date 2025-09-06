@@ -74,7 +74,11 @@
                                     <td>{{ $dt->N_RIT_REALTIME }}</td>
                                     <td>{{ $dt->N_RIT_NOT_REALTIME }}</td>
                                     <td>{{ number_format($dt->PERCENTAGE_REALTIME * 100, 1) }}%</td>
-                                    <td><a href="{{ route('realtimeritation.notrealtime', [$dt->DATE, $dt->RANGEJAM]) }}" class="btn btn-info btn-xs waves-effect waves-light">Show Not Realtime</a></td>
+                                    <td>
+                                        @if ($dt->N_RIT_NOT_REALTIME > 0 )
+                                            <a href="{{ route('realtimeritation.notrealtime', [$dt->DATE, $dt->RANGEJAM]) }}" class="btn btn-info btn-xs waves-effect waves-light">Show Not Realtime</a>
+                                        @endif
+                                    </td>
                                     {{-- <td><a href="{{ route('realtimeritation.notrealtime', [$dt->DATE, $dt->RANGEJAM]) }}">Show Not Realtime</a></td> --}}
                                 </tr>
                             @endforeach

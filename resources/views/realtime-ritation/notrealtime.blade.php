@@ -56,15 +56,85 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Frequency Not Realtime Per Hour</h4>
+
+                    <div id="cardCollpase5" class="collapse show" dir="ltr">
+                        <div id="frequencyNotRealtime" class="apex-charts pt-3" data-colors="#00acc1,#1abc9c,#CED4DC"></div>
+                    </div> <!-- collapsed end -->
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div>
+    </div>
     <!-- end row-->
 
 </div>
 @include('layout.footer')
+@php
+    $categories = $data->pluck('LOC_DUMPING')->unique()->values();
+
+    $series = $data->groupBy('VHC_ID')->map(function($items, $vhc) use ($categories) {
+        return [
+            'name' => $vhc,
+            'data' => $categories->map(function($cat) use ($items) {
+                return $items->where('LOC_DUMPING', $cat)->count();
+            })->values()
+        ];
+    })->values();
+@endphp
+
 <script>
-    // Fungsi untuk mendapatkan parameter query dari URL
+    var categories = @json($categories);
+    var series = @json($series);
+
+    dataColorsFrequencyNotRealtime = $("#frequencyNotRealtime").data("colors");
+    var options = {
+        chart: {
+            height: 380,
+            type: "bar",
+            toolbar: { show: !1 }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: !1,
+                endingShape: "rounded",
+                columnWidth: "55%"
+            }
+        },
+        dataLabels: { enabled: !1 },
+        stroke: { show: !0, width: 2, colors: ["transparent"] },
+        colors: dataColorsFrequencyNotRealtime ? dataColorsFrequencyNotRealtime.split(",") : ["#556ee6","#34c38f","#f46a6a"],
+        series: series,
+        xaxis: {
+            categories: categories
+        },
+        legend: { offsetY: 5 },
+        yaxis: {
+            title: { text: "Count VHC_ID" }
+        },
+        fill: { opacity: 1 },
+        grid: {
+            row: { colors: ["transparent","transparent"], opacity: .2 },
+            borderColor: "#f1f3fa",
+            padding: { bottom: 10 }
+        },
+        tooltip: {
+            y: { formatter: function (val) { return val + " kali"; } }
+        }
+    };
+
+    (chart = new ApexCharts(document.querySelector("#frequencyNotRealtime"), options)).render();
+</script>
+
+
+<script>
     function getQueryParam(name, defaultValue) {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name) || defaultValue; // Mengembalikan nilai default jika parameter tidak ditemukan
+        return urlParams.get(name) || defaultValue;
     }
 
     const currentDate = new Date();
@@ -72,15 +142,13 @@
     // Format default (YYYY-MM-DD)
     const formatDate = (date) => {
         const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2); // Menambahkan leading zero jika perlu
-        const day = ('0' + date.getDate()).slice(-2); // Menambahkan leading zero jika perlu
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
         return `${year}-${month}-${day}`;
     };
 
-    // Mendapatkan parameter tanggal dari URL, jika ada, atau menggunakan tanggal saat ini sebagai default
     const dateDefault = getQueryParam('date', formatDate(currentDate));
 
-    // Set nilai pada elemen input
     document.getElementById('date').value = dateDefault;
 </script>
 
@@ -88,11 +156,12 @@
 <script>
     $(document).ready(function() {
         $('#customTable').DataTable({
-            "pageLength": 32, // Default page length
-            "order": [[1, 'desc']], // Urutkan berdasarkan kolom "Average" (index 1) secara menurun
+            "pageLength": 32,
+            "order": [[1, 'desc']],
             "columnDefs": [
-                { "orderable": false, "targets": 0 } // Nonaktifkan pengurutan di kolom "Equipment"
-        ]
+                { "orderable": false, "targets": 0 }
+            ]
         });
     });
 </script>
+
