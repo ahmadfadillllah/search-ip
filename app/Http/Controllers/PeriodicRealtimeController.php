@@ -228,7 +228,51 @@ class PeriodicRealtimeController extends Controller
             $endMonth,
         ]);
 
-        return view('periodic_realtime.index', compact('displayData', 'startDate', 'endDate', 'trend', 'monthlyRekap'));
+        $rekapQuery2 = "
+            SELECT
+                HARI,
+                VHC_ID,
+                TOTAL_REALTIME,
+                TOTAL_NOT_REALTIME,
+                PRCT_REALTIME
+            FROM (
+                SELECT
+                    VHC_ID,
+                    CONVERT(VARCHAR(10), OPR_SHIFTDATE, 120) AS HARI,
+                    SUM(CASE WHEN CATEGORY = 1 THEN NDATA ELSE 0 END) AS TOTAL_REALTIME,
+                    SUM(CASE WHEN CATEGORY = 0 THEN NDATA ELSE 0 END) AS TOTAL_NOT_REALTIME,
+                    CAST(
+                        SUM(CASE WHEN CATEGORY = 1 THEN NDATA ELSE 0 END) * 1.0 / NULLIF(SUM(NDATA), 0) * 100
+                        AS DECIMAL(5,2)
+                    ) AS PRCT_REALTIME
+                FROM (
+                    SELECT
+                        VHC_ID,
+                        IIF(DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT)/60.0 > 5, 0, 1) AS CATEGORY,
+                        COUNT(*) AS NDATA,
+                        OPR_SHIFTDATE
+                    FROM focus.dbo.PRD_RITATION WITH (NOLOCK)
+                    WHERE
+                        OPR_SHIFTDATE >= DATEADD(DAY, -12, CAST(GETDATE() AS DATE))
+                        AND OPR_SHIFTDATE <= CAST(GETDATE() AS DATE)
+                        AND SYS_UPDATEDBY = 'SYSTEM'
+                        AND SYS_CREATEDBY = 'SYSTEM'
+                        AND VHC_ID = ?
+                    GROUP BY
+                        VHC_ID,
+                        IIF(DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT)/60.0 > 5, 0, 1),
+                        OPR_SHIFTDATE
+                ) AS AGG
+                GROUP BY VHC_ID, CONVERT(VARCHAR(10), OPR_SHIFTDATE, 120)
+            ) AS FINAL
+            ORDER BY HARI ASC, VHC_ID ASC
+        ";
+
+        $dailyRekap = DB::connection('focus')->select($rekapQuery2, [
+            $firstVhcId,
+        ]);
+
+        return view('periodic_realtime.index', compact('displayData', 'startDate', 'endDate', 'trend', 'monthlyRekap', 'dailyRekap'));
     }
 
     public function notRealtime($startDate, $endDate, $vhcId)
