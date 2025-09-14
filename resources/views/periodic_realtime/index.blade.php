@@ -64,7 +64,7 @@
                     <h4 class="header-title">Top 1 Ritation Not Realtime: {{ $dailyRekap[0]->VHC_ID }} (by Date Filter)</h4>
 
                     <div id="cardCollpase10" class="collapse show" dir="ltr">
-                        <div id="apex-top-trend" class="apex-charts pt-3" data-colors="#00acc1,#1abc9c"></div>
+                        <div id="apex-top-trend" class="apex-charts pt-3" data-colors="#856404,#1abc9c"></div>
                     </div> <!-- collapsed end -->
                 </div> <!-- end card-body -->
             </div> <!-- end card-->
@@ -116,10 +116,10 @@
                                             $endDate = $lastTwoDates[0]; // Tanggal terakhir
                                         @endphp
                                        <a href="{{ route('periodicrealtime.notRealtime', ['startDate' => $startDate, 'endDate' => $endDate,'vhcId' => $vhcId ]) }}" class="button btn btn-dark">
-                                        Show Not Realtime
+                                        Show
                                         </a>
                                         <a href="{{ route('periodicrealtime.mapsUnit', ['startDate' => $startDate, 'endDate' => $endDate,'vhcId' => $vhcId ]) }}" target="_blank" class="ladda-button btn btn-info" >
-                                            Maps
+                                            Mine Monitoring
                                         </a>
                                     </td>
                                     @else
@@ -148,7 +148,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div id="apex-modal-trend-unit" class="apex-charts pt-3" data-colors="#f672a7,#00acc1"></div>
+        <div id="apex-modal-trend-unit" class="apex-charts pt-3" data-colors="#856404,#1abc9c"></div>
       </div>
     </div>
   </div>

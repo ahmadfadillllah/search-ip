@@ -22,11 +22,11 @@
             <div data-simplebar>
                 <ul class="app-menu">
 
-                    <li class="menu-title">Fitures</li>
+                    <li class="menu-title">Home</li>
                     <li class="menu-item">
                         <a href="{{ route('dashboard.index') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-home-smile"></i></span>
-                            <span class="menu-text"> Home </span>
+                            <span class="menu-text"> Dashboard </span>
                         </a>
                     </li>
 
@@ -43,12 +43,12 @@
                             <span class="menu-text"> Topology </span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    {{-- <li class="menu-item">
                         <a href="{{ route('maps.index') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-map"></i></span>
                             <span class="menu-text"> Maps Tower</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="menu-title">Units</li>
                     <li class="menu-item">
                         <a href="{{ route('client.index') }}" class="menu-link waves-effect waves-light">
@@ -78,7 +78,7 @@
                     <li class="menu-item">
                         <a href="{{ route('realtimeritation.index') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-share-alt"></i></span>
-                            <span class="menu-text"> Realtime Ritation</span>
+                            <span class="menu-text"> Realtime Ritation per Hour</span>
                         </a>
                     </li>
                     <li class="menu-item">
