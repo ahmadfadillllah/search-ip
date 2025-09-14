@@ -13,33 +13,19 @@ class PeriodicRealtimeController extends Controller
     public function index(Request $request)
     {
 
-        if (empty($request->startDate) || empty($request->endDate)){
-            $now = new DateTime();
-            $now2 = new DateTime();
-            $yesterday = $now->modify('-1 day')->format('Y-m-d');
+        $endDate = $request->endDate ? Carbon::parse($request->endDate) : Carbon::today();
+        $startDate = Carbon::yesterday()->format('Y-m-d');
 
-            $startDate = $yesterday;              // string
-            $endDate = $now2->format('Y-m-d');    // string
+        $startDate3Last = $endDate->copy()->subDays(12);
 
-            $start = new DateTime($startDate);    // ok
-            $end = new DateTime($endDate);
-
-        }else{
-            $start = new DateTime("$request->startDate");
-            $end = new DateTime("$request->endDate");
-        }
-
-
-        $startTimeFormatted = $start->format('Y-m-d');
-        $endTimeFormatted = $end->format('Y-m-d');
-
-
-        $startDate = $startTimeFormatted;
-        $endDate = $endTimeFormatted;
+        // Jika perlu string untuk query
+        $startDate3Last = $startDate3Last->format('Y-m-d');
+        $endDate = $endDate->format('Y-m-d');
 
 
         $start = Carbon::parse($startDate);
         $end = Carbon::parse($endDate);
+
 
         $dates = [];
         $currentDate = $start;
@@ -274,6 +260,64 @@ class PeriodicRealtimeController extends Controller
 
         return view('periodic_realtime.index', compact('displayData', 'startDate', 'endDate', 'trend', 'monthlyRekap', 'dailyRekap'));
     }
+
+    public function ajaxNotRealtimeDetail(Request $request)
+    {
+        $endDate = $request->endDate ? Carbon::parse($request->endDate) : Carbon::today();
+        $startDate = $endDate->copy()->subDays(12);
+
+        $startDate = $startDate->format('Y-m-d');
+        $endDate = $endDate->format('Y-m-d');
+
+        $start = Carbon::parse($startDate);
+        $end = Carbon::parse($endDate);
+
+        // Buat array tanggal
+        $dates = [];
+        $currentDate = $start->copy();
+        while ($currentDate <= $end) {
+            $dates[] = $currentDate->format('Y-m-d');
+            $currentDate->addDay();
+        }
+
+        $firstVhcId = $request->vhcId;
+        // Query detail per unit
+        $rekapQuery2 = "
+            SELECT
+                HARI,
+                TOTAL_NOT_REALTIME,
+                TOTAL_REALTIME
+            FROM (
+                SELECT
+                    CONVERT(VARCHAR(10), OPR_SHIFTDATE, 120) AS HARI,
+                    SUM(CASE WHEN CATEGORY = 0 THEN NDATA ELSE 0 END) AS TOTAL_NOT_REALTIME,
+                    SUM(CASE WHEN CATEGORY = 1 THEN NDATA ELSE 0 END) AS TOTAL_REALTIME
+                FROM (
+                    SELECT
+                        OPR_SHIFTDATE,
+                        IIF(DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT)/60.0 > 5, 0, 1) AS CATEGORY,
+                        COUNT(*) AS NDATA
+                    FROM focus.dbo.PRD_RITATION WITH (NOLOCK)
+                    WHERE VHC_ID = ?
+                        AND OPR_SHIFTDATE BETWEEN ? AND ?
+                        AND SYS_UPDATEDBY = 'SYSTEM'
+                        AND SYS_CREATEDBY = 'SYSTEM'
+                    GROUP BY OPR_SHIFTDATE, IIF(DATEDIFF(SECOND, OPR_REPORTTIME, SYS_CREATEDAT)/60.0 > 5, 0, 1)
+                ) AS AGG
+                GROUP BY CONVERT(VARCHAR(10), OPR_SHIFTDATE, 120)
+            ) AS FINAL
+            ORDER BY HARI ASC
+        ";
+
+        $dailyRekap = DB::connection('focus')->select($rekapQuery2, [$firstVhcId, $startDate, $endDate]);
+
+        return response()->json([
+            'hari' => collect($dailyRekap)->pluck('HARI'),
+            'total_not_realtime' => collect($dailyRekap)->pluck('TOTAL_NOT_REALTIME'),
+            'total_realtime' => collect($dailyRekap)->pluck('TOTAL_REALTIME'),
+        ]);
+    }
+
 
     public function notRealtime($startDate, $endDate, $vhcId)
     {

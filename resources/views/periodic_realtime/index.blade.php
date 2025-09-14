@@ -76,7 +76,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
+                    <h4 class="header-title">Table Trend Unit Not Realtime (3 hari terakhir)</h4>
                     <table id="customTable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
@@ -138,6 +138,22 @@
     <!-- end row-->
 
 </div>
+
+<!-- Modal Not Realtime Unit Detail -->
+<div class="modal fade" id="modalNotRealtimeDetail" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Detail Not Realtime Unit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="apex-modal-trend-unit" class="apex-charts pt-3" data-colors="#f672a7,#00acc1"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 @include('layout.footer')
 
 <script>
@@ -257,6 +273,86 @@
     chartTopTrend = new ApexCharts(document.querySelector("#apex-top-trend"), optionsTopTrend);
     chartTopTrend.render();
 
+    chartTrendUnit.updateOptions({
+    chart: {
+        events: {
+            dataPointSelection: function(event, chartContext, config) {
+                const index = config.dataPointIndex;
+                const vhcId = config.w.config.xaxis.categories[index]; // unit yang diklik
+                const value = config.w.config.series[0].data[index];
+
+                console.log('Klik pada unit:', vhcId, 'Value:', value);
+
+                // Update judul modal
+                const modalTitle = `Detail Not Realtime Unit: ${vhcId} (${startDate} s/d ${endDate})`;
+                document.getElementById('modalLabel').textContent = modalTitle;
+
+                $.ajax({
+                    url: '/periodic-realtime/ajaxNotRealtimeDetail',
+                    method: 'GET',
+                    data: { vhcId: vhcId, startDate: startDate, endDate: endDate },
+                    success: function(response) {
+                        const colors = $("#apex-modal-trend-unit").data("colors").split(",");
+
+                        const options = {
+                            chart: { height: 380, type: 'line', toolbar: { show: false } },
+                            series: [
+                                {
+                                    name: "Total Not Realtime",
+                                    type: "column",
+                                    data: response.total_not_realtime
+                                },
+                                {
+                                    name: "Total Realtime",
+                                    type: "area",
+                                    data: response.total_realtime
+                                }
+                            ],
+                            labels: response.hari,
+                            colors: colors, // pastikan urutan warna: [biru, hijau]
+                            stroke: {
+                                width: [0, 2],
+                                curve: "smooth"
+                            },
+                            fill: {
+                                opacity: [1, 0.25]
+                            },
+                            xaxis: { type: "datetime" },
+                            yaxis: { title: { text: "ritation" } },
+                            tooltip: {
+                                shared: true,
+                                intersect: false,
+                                y: {
+                                    formatter: function (val) {
+                                        return val !== undefined ? val.toFixed(0) + " ritation" : val;
+                                    }
+                                }
+                            },
+                            legend: { offsetY: 7 }
+                        };
+
+                        // Hapus chart lama jika ada
+                        if (window.modalTrendUnitChart) {
+                            window.modalTrendUnitChart.destroy();
+                        }
+
+                        window.modalTrendUnitChart = new ApexCharts(
+                            document.querySelector("#apex-modal-trend-unit"),
+                            options
+                        );
+                        window.modalTrendUnitChart.render();
+
+                        $('#modalNotRealtimeDetail').modal('show');
+                    }
+                });
+
+                }
+            }
+        }
+    });
+
+
+
 </script>
 <script>
     // Fungsi untuk mendapatkan parameter query dari URL
@@ -296,6 +392,7 @@
 
 
 </script>
+
 
 <script>
     $(document).ready(function() {
