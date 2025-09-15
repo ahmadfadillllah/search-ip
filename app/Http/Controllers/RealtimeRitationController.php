@@ -38,8 +38,13 @@ class RealtimeRitationController extends Controller
             $date = $date->addDay();
         }
 
-        $dateStart = Carbon::parse($date->toDateString() . ' ' . $start->format('H:i'))->format('Y-m-d H:i');
-        $dateEnd = Carbon::parse($date->toDateString() . ' ' . $end->format('H:i'))->format('Y-m-d H:i');
+        if ($end->format('H:i') === '00:00') {
+            $dateEnd = Carbon::parse($date->toDateString() . ' 23:59:59')->format('Y-m-d H:i:s');
+        } else {
+            $dateEnd = Carbon::parse($date->toDateString() . ' ' . $end->format('H:i'))->format('Y-m-d H:i:s');
+        }
+
+        $dateStart = Carbon::parse($date->toDateString() . ' ' . $start->format('H:i'))->format('Y-m-d H:i:s');
         try {
             $data = DB::connection('focus')->table('FOCUS.DBO.PRD_RITATION')
                 ->select(
