@@ -7,7 +7,7 @@
             <div class="logo-box">
                 <!-- Brand Logo Light -->
                 <a href="#" class="logo-light">
-                    <h3 class="logo-lg" style="color:blue" >IT-FMS Team</h3>
+                    <h3 class="logo-lg" style="color:rgb(255, 255, 255)" >IT-FMS Team</h3>
                     <img src="{{ asset('home/Admin/dist') }}/assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
                 </a>
 
