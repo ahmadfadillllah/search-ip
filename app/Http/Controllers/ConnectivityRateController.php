@@ -48,6 +48,7 @@ class ConnectivityRateController extends Controller
                 END AS STATUS
             FROM PRD_RITATION WITH (NOLOCK)
             WHERE OPR_REPORTTIME BETWEEN ? AND ?
+            AND SYS_UPDATEDBY = 'SYSTEM'
             ORDER BY ID DESC
         ", [
             $startTimeFormatted,

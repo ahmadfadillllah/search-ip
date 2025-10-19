@@ -70,7 +70,7 @@
                                 <td>
                                     <a class="btn btn-info btn-xs" href="{{ route('access_point.details', $item['Name'] ) }}">Show</a>
                                     {{-- @if ($item['Status'] == 'Down') --}}
-                                    <button type="button" class="btn btn-warning btn-xs reboot-btn" data-ip="{{ $item['Name'] }}|{{ $item['IP Address'] }}|{{ $item['Status']  }}">Reboot</button>
+                                    {{-- <button type="button" class="btn btn-warning btn-xs reboot-btn" data-ip="{{ $item['Name'] }}|{{ $item['IP Address'] }}|{{ $item['Status']  }}">Reboot</button> --}}
                                     {{-- @endif --}}
 
                                 </td>
